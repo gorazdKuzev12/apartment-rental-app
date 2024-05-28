@@ -22,7 +22,7 @@ const AboutUs = () => {
             all of life's modern conveniences, see why Cilla Smaragdis is the
             perfect place to call home.
           </Description>
-          <ViewButton>View Gallery</ViewButton>
+          <ViewButton>Contact Us</ViewButton>
         </RightColumn>
       </Container>
     </AboutSection>
