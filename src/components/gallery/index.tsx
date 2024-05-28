@@ -91,6 +91,8 @@ const Overlay = styled.div`
   justify-content: center;
   opacity: 0;
   transition: opacity 0.3s ease;
+  text-transform: uppercase;
+  font-family: "Arial", sans-serif; /* Change this to your desired font */
 
   ${ImageWrapper}:hover & {
     opacity: 1;
@@ -100,18 +102,38 @@ const Overlay = styled.div`
 const OverlayText = styled.span`
   color: #fff;
   font-size: 1.5rem;
-  font-weight: bold;
 `;
 
 const ButtonWrapper = styled.div`
-  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  margin-top: 3rem;
+
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    height: 2px;
+    background-color: #1a513a;
+  }
+
+  &::before {
+    margin-right: 1rem;
+  }
+
+  &::after {
+    margin-left: 1rem;
+  }
 `;
 
 const ViewButton = styled.button`
   background-color: transparent;
   color: #1a513a;
   border: 2px solid #1a513a;
-  padding: 0.75rem 1.5rem;
+  padding: 1.3rem 1.8rem;
   font-size: 1rem;
   font-weight: bold;
   text-transform: uppercase;
@@ -123,4 +145,5 @@ const ViewButton = styled.button`
     color: #fff;
   }
 `;
+
 export default Gallery;

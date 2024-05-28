@@ -1,6 +1,6 @@
 // components/ContactUs.js
 "use client";
-import { faPhone } from "@fortawesome/free-solid-svg-icons";
+import { faPhone, faInstagram } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -11,10 +11,19 @@ const ContactUs = () => {
         <Content>
           <Subtitle>Always Here for You</Subtitle>
           <Title>Enhancing Your Living Experience</Title>
-          <CallButton href="tel:+123456789">
-            <FontAwesomeIcon icon={faPhone} />
-            &nbsp;+1 (234) 567-89
-          </CallButton>
+          <ContactInfo>
+            <CallButton href="tel:+123456789">
+              <FontAwesomeIcon icon={faPhone} />
+              &nbsp;+1 (234) 567-89
+            </CallButton>
+            <InstagramButton
+              href="https://www.instagram.com/youraccount"
+              target="_blank"
+            >
+              <FontAwesomeIcon icon={faInstagram} />
+              &nbsp;Contact us on Instagram
+            </InstagramButton>
+          </ContactInfo>
         </Content>
       </Overlay>
     </ContactSection>
@@ -61,6 +70,13 @@ const Title = styled.h1`
   margin-bottom: 1rem;
 `;
 
+const ContactInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+`;
+
 const CallButton = styled.a`
   display: inline-flex;
   align-items: center;
@@ -78,10 +94,22 @@ const CallButton = styled.a`
   }
 `;
 
-const PhoneIcon = styled.img`
-  width: 20px;
-  height: 20px;
-  margin-right: 0.5rem;
+const InstagramButton = styled.a`
+  display: inline-flex;
+  align-items: center;
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+  padding: 1rem 2rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: white;
+    color: #16432a;
+  }
 `;
 
 export default ContactUs;

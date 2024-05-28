@@ -25,10 +25,11 @@ const Header = () => {
         <img src="/logo.png" alt="Cilla Smaragdis Logo" />
       </Logo>
       <NavMenu>
-        <NavItem href="#">Home</NavItem>
+        <NavItem href="">Home</NavItem>
+        <NavItem href="#">Book a Room</NavItem>
+        <NavItem href="/gallery">Gallery</NavItem>
         <NavItem href="#">About</NavItem>
         <NavItem href="#">Contact</NavItem>
-        <NavItem href="#">Book a Room</NavItem>
       </NavMenu>
     </Nav>
   );
