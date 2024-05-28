@@ -1,8 +1,20 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const Main = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const images = ["/image1.jpg", "/image2.jpg", "/image3.jpg"]; // Add your image paths here
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 2500); // Change image every 1.5 seconds
+
+    return () => clearInterval(interval); // Cleanup the interval on component unmount
+  }, [images.length]);
+
   return (
     <HeroSection>
       <Overlay>
@@ -16,10 +28,14 @@ const Main = () => {
         </Content>
       </Overlay>
       <ImageScroller>
-        {/* Add your images here */}
-        <Image src="/image1.jpg" alt="Apartment 1" />
-        <Image src="/image2.jpg" alt="Apartment 2" />
-        <Image src="/image3.jpg" alt="Apartment 3" />
+        {images.map((src, index) => (
+          <Image
+            key={index}
+            src={src}
+            alt={`Apartment ${index + 1}`}
+            active={index === currentIndex}
+          />
+        ))}
       </ImageScroller>
     </HeroSection>
   );
@@ -62,9 +78,10 @@ const Subtitle = styled.p`
   font-size: 1.25rem;
   margin-bottom: 2rem;
 `;
+
 const BookButton = styled.button`
-  background-color: #1a513a;
-  color: #ffffff;
+  background-color: white;
+  color: #16432a;
   border: none;
   padding: 1rem 2rem;
   font-size: 1rem;
@@ -75,29 +92,27 @@ const BookButton = styled.button`
 
   &:hover {
     background-color: #16432a;
+    color: white;
     transform: scale(1.05);
   }
 `;
 
 const ImageScroller = styled.div`
+  position: relative;
   display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100%;
-  width: 300%;
-  animation: scroll 30s linear infinite;
-
-  @keyframes scroll {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-66.66%);
-    }
-  }
+  width: 100%;
 `;
 
 const Image = styled.img`
+  position: absolute;
   width: 100%;
+  height: 100%;
   object-fit: cover;
+  opacity: ${({ active }) => (active ? 1 : 0)};
+  transition: opacity 0.5s ease;
 `;
 
 export default Main;
