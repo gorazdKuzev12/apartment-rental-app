@@ -1,6 +1,5 @@
-// pages/gallery.js
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
@@ -9,33 +8,78 @@ const images = [
   "/image1.jpg",
   "/image2.jpg",
   "/image3.jpg",
-  "/image1.jpg",
-  "/image2.jpg",
-  "/image3.jpg",
-  "/image1.jpg",
-  "/image2.jpg",
-  "/image3.jpg",
+  "/image4.jpg",
+  "/image5.jpg",
+  "/image7.jpg",
+  "/image8.jpg",
+  "/image9.jpg",
+  "/image10.jpg",
+  "/image11.jpg",
+  "/image12.jpg",
+  "/image13.jpg",
   // Add more image paths as needed
 ];
 
 const GalleryPage = () => {
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
 
-  const openModal = (imageSrc) => {
-    setSelectedImage(imageSrc);
+  const openModal = (index) => {
+    setSelectedImageIndex(index);
   };
 
   const closeModal = () => {
-    setSelectedImage(null);
+    setSelectedImageIndex(null);
   };
+
+  const showPreviousImage = (e) => {
+    e.stopPropagation();
+    setSelectedImageIndex((prevIndex) =>
+      prevIndex > 0 ? prevIndex - 1 : images.length - 1
+    );
+  };
+
+  const showNextImage = (e) => {
+    e.stopPropagation();
+    setSelectedImageIndex((prevIndex) =>
+      prevIndex < images.length - 1 ? prevIndex + 1 : 0
+    );
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Escape") {
+      closeModal();
+    } else if (e.key === "ArrowLeft") {
+      showPreviousImage(e);
+    } else if (e.key === "ArrowRight") {
+      showNextImage(e);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedImageIndex !== null) {
+      window.addEventListener("keydown", handleKeyDown);
+    } else {
+      window.removeEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [selectedImageIndex]);
 
   return (
     <>
       <Header />
-      {selectedImage && (
+      {selectedImageIndex !== null && (
         <ModalOverlay onClick={closeModal}>
           <ModalContent onClick={(e) => e.stopPropagation()}>
-            <ModalImage src={selectedImage} alt="Selected" />
+            <NavButton onClick={showPreviousImage} style={{ left: "10px" }}>
+              &#9664;
+            </NavButton>
+            <ModalImage src={images[selectedImageIndex]} alt="Selected" />
+            <NavButton onClick={showNextImage} style={{ right: "10px" }}>
+              &#9654;
+            </NavButton>
           </ModalContent>
         </ModalOverlay>
       )}
@@ -55,7 +99,7 @@ const GalleryPage = () => {
       <GallerySection>
         <ImageGrid>
           {images.map((src, index) => (
-            <ImageWrapper key={index} onClick={() => openModal(src)}>
+            <ImageWrapper key={index} onClick={() => openModal(index)}>
               <Image src={src} alt={`Gallery Image ${index + 1}`} />
             </ImageWrapper>
           ))}
@@ -71,6 +115,14 @@ const HeroSection = styled.section`
   height: 60vh;
   background: url("/image1.jpg") center/cover no-repeat; /* Ensure you have this image in your public folder */
   position: relative;
+
+  @media (max-width: 768px) {
+    height: 40vh;
+  }
+
+  @media (max-width: 480px) {
+    height: 30vh;
+  }
 `;
 
 const HeroOverlay = styled.div`
@@ -88,15 +140,36 @@ const HeroOverlay = styled.div`
 
 const HeroContent = styled.div`
   color: white;
+  padding: 0 1rem;
+
+  @media (max-width: 480px) {
+    padding: 0 0.5rem;
+  }
 `;
 
 const HeroTitle = styled.h1`
   font-size: 3rem;
   margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const HeroSubtitle = styled.p`
   font-size: 1.25rem;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.875rem;
+  }
 `;
 
 const TitleSection = styled.section`
@@ -105,16 +178,40 @@ const TitleSection = styled.section`
   align-items: center;
   height: 20vh;
   background-color: #f9f9f9;
+
+  @media (max-width: 768px) {
+    height: 15vh;
+  }
+
+  @media (max-width: 480px) {
+    height: 10vh;
+  }
 `;
 
 const Title = styled.h1`
   font-size: 3rem;
   color: #1a513a;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const GallerySection = styled.section`
   padding: 2rem;
   background-color: #f9f9f9;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.5rem;
+  }
 `;
 
 const ImageGrid = styled.div`
@@ -137,6 +234,10 @@ const ImageWrapper = styled.div`
   padding-bottom: 75%; /* 4:3 Aspect Ratio */
   background-color: #ddd;
   cursor: pointer;
+
+  @media (max-width: 480px) {
+    padding-bottom: 100%; /* 1:1 Aspect Ratio */
+  }
 `;
 
 const Image = styled.img`
@@ -174,12 +275,39 @@ const ModalContent = styled.div`
   background: white;
   border-radius: 10px;
   overflow: hidden;
+
+  @media (max-width: 480px) {
+    max-width: 95%;
+    max-height: 95%;
+  }
 `;
 
 const ModalImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: contain;
+`;
+
+const NavButton = styled.div`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
 `;
 
 export default GalleryPage;

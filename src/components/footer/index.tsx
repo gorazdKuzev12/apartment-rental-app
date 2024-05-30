@@ -3,20 +3,35 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faInstagram } from "@fortawesome/free-brands-svg-icons";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const Footer = () => {
+  const router = useRouter();
+
+  const handleNavigation = async (path, hash) => {
+    await router.push(path);
+
+    // Polling to check if the element exists
+    const checkExist = setInterval(() => {
+      if (hash) {
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+          clearInterval(checkExist);
+        }
+      }
+    }, 100); // Check every 100ms
+  };
   return (
     <FooterContainer>
       <FooterContent>
-        <LogoColumn>
-          <Logo src="/logo.png" alt="Logo" />
-        </LogoColumn>
         <ContactColumn>
           <ColumnTitle>Contact Us</ColumnTitle>
           <Address>
             3769 W. 25th Street,
             <br />
-            Greeley, CO 80634
+            Novi Sad, Serbia
           </Address>
           <GetDirections href="#">Get Directions</GetDirections>
           <SocialIcons>
@@ -31,17 +46,26 @@ const Footer = () => {
         <MenuColumn>
           <ColumnTitle>Menu</ColumnTitle>
           <MenuList>
-            <MenuItem href="#">Home</MenuItem>
-            <MenuItem href="#">Floor Plans</MenuItem>
-            <MenuItem href="#">Amenities</MenuItem>
-            <MenuItem href="#">Gallery</MenuItem>
-            <MenuItem href="#">Neighborhood</MenuItem>
+            <MenuItem onClick={() => handleNavigation("/", "home")}>
+              Home
+            </MenuItem>
+            <MenuItem onClick={() => handleNavigation("/", "book-room")}>
+              Book
+            </MenuItem>
+            <MenuItem as={Link} href="/gallery">
+              Gallery
+            </MenuItem>
+            <MenuItem onClick={() => handleNavigation("/", "about-us")}>
+              About
+            </MenuItem>
+            <MenuItem onClick={() => handleNavigation("/", "contact")}>
+              Contact
+            </MenuItem>
           </MenuList>
         </MenuColumn>
         <LinksColumn>
           <ColumnTitle>Links</ColumnTitle>
           <LinkItem href="#">Resident Login</LinkItem>
-          <ContactButton href="#">Contact Us</ContactButton>
         </LinksColumn>
       </FooterContent>
       <FooterBottom>
@@ -55,7 +79,7 @@ const Footer = () => {
 };
 
 const FooterContainer = styled.footer`
-  background-color: #0c3625;
+  background-color: #0b2520;
   color: #fff;
   padding: 2rem;
   display: flex;

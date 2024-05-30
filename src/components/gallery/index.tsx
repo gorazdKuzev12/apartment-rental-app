@@ -1,4 +1,3 @@
-// components/Gallery.js
 "use client";
 import styled from "styled-components";
 import Link from "next/link";
@@ -14,19 +13,19 @@ const Gallery = () => {
           </Overlay>
         </ImageWrapper>
         <ImageWrapper>
-          <Image src="/image2.jpg" alt="1-BEDROOM PHASE II" />
+          <Image src="/image4.jpg" alt="1-BEDROOM PHASE II" />
           <Overlay>
             <OverlayText>Luxury Room</OverlayText>
           </Overlay>
         </ImageWrapper>
         <ImageWrapper>
-          <Image src="/image3.jpg" alt="2-BEDROOM PHASE I" />
+          <Image src="/image5.jpg" alt="2-BEDROOM PHASE I" />
           <Overlay>
             <OverlayText>Beautiful Nature</OverlayText>
           </Overlay>
         </ImageWrapper>
         <ImageWrapper>
-          <Image src="/image1.jpg" alt="2-BEDROOM PHASE II" />
+          <Image src="/image8.jpg" alt="2-BEDROOM PHASE II" />
           <Overlay>
             <OverlayText>Modern Design</OverlayText>
           </Overlay>
@@ -49,6 +48,11 @@ const GallerySection = styled.section`
   height: 100vh; // Full viewport height
   padding: 2rem;
   background-color: #f9f9f9;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    height: auto;
+  }
 `;
 
 const ImageGrid = styled.div`
@@ -60,12 +64,21 @@ const ImageGrid = styled.div`
   @media (min-width: 768px) {
     grid-template-columns: repeat(4, 1fr);
   }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 `;
 
 const ImageWrapper = styled.div`
   position: relative;
   overflow: hidden;
   height: 100%; // Full height for the wrapper
+
+  @media (max-width: 768px) {
+    height: auto;
+  }
 
   &:hover img {
     transform: scale(1.1);
@@ -77,6 +90,10 @@ const Image = styled.img`
   height: 100%;
   object-fit: cover; // Ensures image covers the container
   transition: transform 0.3s ease;
+
+  @media (max-width: 768px) {
+    height: auto;
+  }
 `;
 
 const Overlay = styled.div`
@@ -102,6 +119,10 @@ const Overlay = styled.div`
 const OverlayText = styled.span`
   color: #fff;
   font-size: 1.5rem;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
 `;
 
 const ButtonWrapper = styled.div`
@@ -127,6 +148,14 @@ const ButtonWrapper = styled.div`
   &::after {
     margin-left: 1rem;
   }
+
+  @media (max-width: 768px) {
+    margin-top: 2rem;
+    &::before,
+    &::after {
+      height: 1px;
+    }
+  }
 `;
 
 const ViewButton = styled.button`
@@ -143,6 +172,11 @@ const ViewButton = styled.button`
   &:hover {
     background-color: #1a513a;
     color: #fff;
+  }
+
+  @media (max-width: 768px) {
+    padding: 1rem 1.5rem;
+    font-size: 0.875rem;
   }
 `;
 
