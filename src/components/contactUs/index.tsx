@@ -1,4 +1,3 @@
-// components/ContactUs.js
 "use client";
 import { faPhone, faInstagram } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
@@ -6,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ContactUs = () => {
   return (
-    <ContactSection>
+    <ContactSection id="contact">
       <Overlay>
         <Content>
           <Subtitle>Always Here for You</Subtitle>
@@ -35,8 +34,13 @@ const ContactSection = styled.section`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background: url("/image1.jpg") center/cover no-repeat; /* Adjust path to your background image */
+  background: url("/image10.jpg") center/cover no-repeat; /* Adjust path to your background image */
   position: relative;
+
+  @media (max-width: 768px) {
+    height: auto;
+    padding: 2rem 1rem;
+  }
 `;
 
 const Overlay = styled.div`
@@ -49,6 +53,16 @@ const Overlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 768px) {
+    position: static;
+    background: rgba(
+      0,
+      0,
+      0,
+      0.7
+    ); /* Slightly darker overlay for smaller screens */
+  }
 `;
 
 const Content = styled.div`
@@ -57,17 +71,30 @@ const Content = styled.div`
   padding: 2rem;
   border: 2px solid white;
   position: relative;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    border: none;
+  }
 `;
 
 const Subtitle = styled.h2`
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
   font-style: italic;
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+  }
 `;
 
 const Title = styled.h1`
   font-size: 3rem;
   margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
 `;
 
 const ContactInfo = styled.div`
@@ -75,6 +102,10 @@ const ContactInfo = styled.div`
   flex-direction: column;
   gap: 1rem;
   align-items: center;
+
+  @media (max-width: 768px) {
+    gap: 0.5rem;
+  }
 `;
 
 const CallButton = styled.a`
@@ -91,6 +122,11 @@ const CallButton = styled.a`
 
   &:hover {
     background-color: #16432a;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
   }
 `;
 
@@ -109,6 +145,11 @@ const InstagramButton = styled.a`
   &:hover {
     background-color: white;
     color: #16432a;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
   }
 `;
 

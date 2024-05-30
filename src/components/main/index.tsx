@@ -10,7 +10,7 @@ const Main = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 2500); // Change image every 1.5 seconds
+    }, 2500); // Change image every 2.5 seconds
 
     return () => clearInterval(interval); // Cleanup the interval on component unmount
   }, [images.length]);
@@ -67,16 +67,37 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0 1rem;
+
+  @media (max-width: 768px) {
+    padding: 0 2rem;
+  }
 `;
 
 const Title = styled.h1`
   font-size: 2.5rem;
   margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.75rem;
+  }
 `;
 
 const Subtitle = styled.p`
   font-size: 1.25rem;
   margin-bottom: 2rem;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.875rem;
+  }
 `;
 
 const BookButton = styled.button`
@@ -88,12 +109,28 @@ const BookButton = styled.button`
   font-weight: bold;
   cursor: pointer;
   text-transform: uppercase;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* space between text and icon */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.3s ease,
+    box-shadow 0.3s ease;
 
   &:hover {
     background-color: #16432a;
     color: white;
     transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
   }
 `;
 

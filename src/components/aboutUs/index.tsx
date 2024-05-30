@@ -1,10 +1,19 @@
-// components/AboutUs.js
 "use client";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 
 const AboutUs = () => {
+  const handleGetDirections = () => {
+    const address = "1600 Amphitheatre Parkway, Mountain View, CA"; // Change to your desired address
+    const mapsUrl = `https://www.google.com/maps?q=${encodeURIComponent(
+      address
+    )}`;
+    window.open(mapsUrl, "_blank");
+  };
+
   return (
-    <AboutSection>
+    <AboutSection id="about-us">
       <Container>
         <LeftColumn>
           <Logo src="/logo.png" alt="Cilla Smaragdis Logo" />
@@ -22,7 +31,10 @@ const AboutUs = () => {
             all of life's modern conveniences, see why Cilla Smaragdis is the
             perfect place to call home.
           </Description>
-          <ViewButton>Contact Us</ViewButton>
+          <ViewButton onClick={handleGetDirections}>
+            <FontAwesomeIcon icon={faMapMarkerAlt} />
+            &nbsp;Get Location
+          </ViewButton>
         </RightColumn>
       </Container>
     </AboutSection>
@@ -33,9 +45,14 @@ const AboutSection = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh; // Full viewport height
+  height: 100vh;
   padding: 0 2rem;
   background-color: #f9f9f9;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    height: auto;
+  }
 `;
 
 const Container = styled.div`
@@ -47,6 +64,11 @@ const Container = styled.div`
   width: 100%;
   margin: 0 auto;
   gap: 2rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 1rem;
+  }
 `;
 
 const LeftColumn = styled.div`
@@ -55,17 +77,30 @@ const LeftColumn = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+
+  @media (max-width: 768px) {
+    align-items: center;
+    text-align: center;
+  }
 `;
 
 const RightColumn = styled.div`
   flex: 1;
   min-width: 300px;
+
+  @media (max-width: 768px) {
+    text-align: center;
+  }
 `;
 
 const Logo = styled.img`
   width: 120px;
   height: auto;
   margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    width: 100px;
+  }
 `;
 
 const Tagline = styled.h2`
@@ -73,6 +108,10 @@ const Tagline = styled.h2`
   font-style: italic;
   margin-bottom: 0.5rem;
   color: #a8a8a8;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const Title = styled.h1`
@@ -80,6 +119,10 @@ const Title = styled.h1`
   font-weight: bold;
   margin-bottom: 1rem;
   color: #1a513a;
+
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
+  }
 `;
 
 const Separator = styled.hr`
@@ -93,6 +136,10 @@ const Description = styled.p`
   line-height: 1.6;
   margin-bottom: 2rem;
   color: #717171;
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+  }
 `;
 
 const ViewButton = styled.button`
@@ -105,10 +152,17 @@ const ViewButton = styled.button`
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
 
   &:hover {
     background-color: #1a513a;
     color: #fff;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
   }
 `;
 
