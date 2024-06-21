@@ -1,26 +1,52 @@
+// src/components/ContactUs.tsx
+
 "use client";
 import { faPhone, faInstagram } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useLanguage } from "@/context/LanguageContext"; // Import the useLanguage hook
+
+const translations = {
+  SR: {
+    subtitle: "Uvek tu za vas",
+    title: "Poboljšanje vašeg životnog iskustva",
+    phone: "Pozovite nas",
+    instagram: "Kontaktirajte nas na Instagramu",
+  },
+  EN: {
+    subtitle: "Always Here for You",
+    title: "Enhancing Your Living Experience",
+    phone: "Call Us",
+    instagram: "Contact us on Instagram",
+  },
+  DE: {
+    subtitle: "Immer für Sie da",
+    title: "Verbesserung Ihres Wohnerlebnisses",
+    phone: "Rufen Sie uns an",
+    instagram: "Kontaktieren Sie uns auf Instagram",
+  },
+};
 
 const ContactUs = () => {
+  const { language } = useLanguage(); // Get the current language from the context
+
   return (
     <ContactSection id="contact">
       <Overlay>
         <Content>
-          <Subtitle>Always Here for You</Subtitle>
-          <Title>Enhancing Your Living Experience</Title>
+          <Subtitle>{translations[language].subtitle}</Subtitle>
+          <Title>{translations[language].title}</Title>
           <ContactInfo>
             <CallButton href="tel:+123456789">
               <FontAwesomeIcon icon={faPhone} />
-              &nbsp;+1 (234) 567-89
+              &nbsp;{translations[language].phone}: +1 (234) 567-89
             </CallButton>
             <InstagramButton
               href="https://www.instagram.com/youraccount"
               target="_blank"
             >
               <FontAwesomeIcon icon={faInstagram} />
-              &nbsp;Contact us on Instagram
+              &nbsp;{translations[language].instagram}
             </InstagramButton>
           </ContactInfo>
         </Content>

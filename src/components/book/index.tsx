@@ -1,14 +1,67 @@
+// src/components/BookNow.tsx
+
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 import { db } from "../.././../firebase"; // Adjust the path as needed
+import { useLanguage } from "@/context/LanguageContext"; // Import the useLanguage hook
+
+const translations = {
+  SR: {
+    title: "Kontaktirajte naš tim za izdavanje još danas",
+    description:
+      "Naš tim je srećan da odgovori na sva vaša pitanja o dostupnosti, cenama i da zakaže obilazak kako biste pronašli svoj novi dom.",
+    name: "Ime*",
+    email: "Email*",
+    phone: "Telefon",
+    checkIn: "Datum dolaska",
+    checkOut: "Datum odlaska",
+    submit: "Rezerviši",
+    successTitle: "Rezervacija uspešna!",
+    successMessage:
+      "Vaša rezervacija je uspešno izvršena i sada je na čekanju. Molimo sačekajte da vas vlasnik kontaktira pre nego što bude prihvaćena.",
+    close: "Zatvori",
+  },
+  EN: {
+    title: "Get In Touch With Our Leasing Team Today",
+    description:
+      "Our team is happy to answer any questions on availability, pricing, and to schedule a tour to find your new home.",
+    name: "Name*",
+    email: "Email*",
+    phone: "Phone",
+    checkIn: "Move-In Date",
+    checkOut: "Move-Out Date",
+    submit: "Book",
+    successTitle: "Booking Successful!",
+    successMessage:
+      "Your booking was successful and is now pending. Please wait for the owner to contact you before it is accepted.",
+    close: "Close",
+  },
+  DE: {
+    title: "Kontaktieren Sie noch heute unser Vermietungsteam",
+    description:
+      "Unser Team beantwortet gerne alle Ihre Fragen zur Verfügbarkeit, Preisgestaltung und zur Terminvereinbarung für eine Besichtigung, um Ihr neues Zuhause zu finden.",
+    name: "Name*",
+    email: "Email*",
+    phone: "Telefon",
+    checkIn: "Einzugsdatum",
+    checkOut: "Auszugsdatum",
+    submit: "Buchen",
+    successTitle: "Buchung erfolgreich!",
+    successMessage:
+      "Ihre Buchung war erfolgreich und ist jetzt ausstehend. Bitte warten Sie, bis der Eigentümer Sie kontaktiert, bevor sie akzeptiert wird.",
+    close: "Schließen",
+  },
+};
 
 const BookNow = () => {
+  const { language } = useLanguage(); // Get the current language from the context
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [bookedDates, setBookedDates] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -18,6 +71,39 @@ const BookNow = () => {
     status: "Pending",
   });
   const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    const fetchBookedDates = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "Bookings"));
+        const dates = [];
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const checkIn =
+            data.checkIn instanceof Date
+              ? data.checkIn
+              : new Date(data.checkIn);
+          const checkOut =
+            data.checkOut instanceof Date
+              ? data.checkOut
+              : new Date(data.checkOut);
+          // Generate all dates between check-in and check-out
+          for (
+            let d = new Date(checkIn);
+            d <= new Date(checkOut);
+            d.setDate(d.getDate() + 1)
+          ) {
+            dates.push(new Date(d));
+          }
+        });
+        setBookedDates(dates);
+      } catch (error) {
+        console.error("Error fetching booked dates: ", error);
+      }
+    };
+
+    fetchBookedDates();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -59,16 +145,13 @@ const BookNow = () => {
     <BookNowSection id="book-room">
       <Container>
         <LeftColumn>
-          <Title>Get In Touch With Our Leasing Team Today</Title>
-          <Description>
-            Our team is happy to answer any questions on availability, pricing,
-            and to schedule a tour to find your new home.
-          </Description>
+          <Title>{translations[language].title}</Title>
+          <Description>{translations[language].description}</Description>
         </LeftColumn>
         <RightColumn>
           <Form onSubmit={handleSubmit}>
             <InputWrapper>
-              <Label htmlFor="name">Name*</Label>
+              <Label htmlFor="name">{translations[language].name}</Label>
               <Input
                 type="text"
                 id="name"
@@ -79,7 +162,7 @@ const BookNow = () => {
               />
             </InputWrapper>
             <InputWrapper>
-              <Label htmlFor="email">Email*</Label>
+              <Label htmlFor="email">{translations[language].email}</Label>
               <Input
                 type="email"
                 id="email"
@@ -90,7 +173,7 @@ const BookNow = () => {
               />
             </InputWrapper>
             <InputWrapper>
-              <Label htmlFor="phone">Phone</Label>
+              <Label htmlFor="phone">{translations[language].phone}</Label>
               <Input
                 type="tel"
                 id="phone"
@@ -100,7 +183,7 @@ const BookNow = () => {
               />
             </InputWrapper>
             <InputWrapper>
-              <Label htmlFor="checkIn">Move-In Date</Label>
+              <Label htmlFor="checkIn">{translations[language].checkIn}</Label>
               <StyledDatePicker
                 selected={startDate}
                 onChange={(date) => {
@@ -108,12 +191,15 @@ const BookNow = () => {
                   handleDateChange("checkIn", date);
                 }}
                 dateFormat="MM/dd/yyyy"
-                placeholderText="Select a date"
+                placeholderText={translations[language].checkIn}
+                excludeDates={bookedDates}
                 required
               />
             </InputWrapper>
             <InputWrapper>
-              <Label htmlFor="checkOut">Move-Out Date</Label>
+              <Label htmlFor="checkOut">
+                {translations[language].checkOut}
+              </Label>
               <StyledDatePicker
                 selected={endDate}
                 onChange={(date) => {
@@ -121,12 +207,15 @@ const BookNow = () => {
                   handleDateChange("checkOut", date);
                 }}
                 dateFormat="MM/dd/yyyy"
-                placeholderText="Select a date"
+                placeholderText={translations[language].checkOut}
+                excludeDates={bookedDates}
                 required
               />
             </InputWrapper>
             <ButtonWrapper>
-              <SubmitButton type="submit">Book</SubmitButton>
+              <SubmitButton type="submit">
+                {translations[language].submit}
+              </SubmitButton>
             </ButtonWrapper>
           </Form>
         </RightColumn>
@@ -134,12 +223,11 @@ const BookNow = () => {
       {showModal && (
         <ModalOverlay onClick={() => setShowModal(false)}>
           <ModalContent onClick={(e) => e.stopPropagation()}>
-            <ModalTitle>Booking Successful!</ModalTitle>
-            <ModalMessage>
-              Your booking was successful and is now pending. Please wait for
-              the owner to contact you before it is accepted.
-            </ModalMessage>
-            <CloseButton onClick={() => setShowModal(false)}>Close</CloseButton>
+            <ModalTitle>{translations[language].successTitle}</ModalTitle>
+            <ModalMessage>{translations[language].successMessage}</ModalMessage>
+            <CloseButton onClick={() => setShowModal(false)}>
+              {translations[language].close}
+            </CloseButton>
           </ModalContent>
         </ModalOverlay>
       )}
