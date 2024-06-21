@@ -1,9 +1,54 @@
+// src/components/AboutUs.tsx
+
 "use client";
+
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
+import { useLanguage } from "@/context/LanguageContext"; // Import the useLanguage hook
+
+const translations = {
+  SR: {
+    tagline: "Luksuzni Apartmani",
+    title: "NoCo život u srcu Greeley-a",
+    description: `
+      U srcu Greeley-a, Cilla Smaragdis nudi luksuzan život i novodizajnirane apartmane
+      na pešačkoj udaljenosti od mnogih prodavnica, restorana i škola. Ako ste tražili
+      ravnotežu između neverovatnih pogodnosti i vrhunskih završnih obrada na centralnoj
+      lokaciji - vaša potraga je gotova. Tiho smešteni, a opet blizu svih modernih pogodnosti,
+      vidite zašto je Cilla Smaragdis savršeno mesto za vaš dom.
+    `,
+    button: "Pronađi lokaciju",
+  },
+  EN: {
+    tagline: "Luxury Apartments",
+    title: "NoCo Life in the Heart of Greeley",
+    description: `
+      In the heart of Greeley, Cilla Smaragdis offers deluxe living and newly designed apartments
+      within walking distance to countless shops, restaurants, and schools. If you've been searching
+      for a balance between amazing amenities and high-end finishes in a central location - your search
+      is over. Quietly tucked away, yet close to all of life's modern conveniences, see why Cilla Smaragdis
+      is the perfect place to call home.
+    `,
+    button: "Get Location",
+  },
+  DE: {
+    tagline: "Luxuswohnungen",
+    title: "NoCo Leben im Herzen von Greeley",
+    description: `
+      Im Herzen von Greeley bietet Cilla Smaragdis luxuriöses Wohnen und neu gestaltete Wohnungen,
+      die sich in Gehweite zu unzähligen Geschäften, Restaurants und Schulen befinden. Wenn Sie nach
+      einer Balance zwischen erstaunlichen Annehmlichkeiten und hochwertigen Ausstattungen in zentraler
+      Lage gesucht haben - Ihre Suche ist vorbei. Ruhig gelegen, aber dennoch in der Nähe aller modernen
+      Annehmlichkeiten, sehen Sie, warum Cilla Smaragdis der perfekte Ort ist, um zu Hause zu sein.
+    `,
+    button: "Standort finden",
+  },
+};
 
 const AboutUs = () => {
+  const { language } = useLanguage(); // Get the current language from the context
+
   const handleGetDirections = () => {
     const address = "1600 Amphitheatre Parkway, Mountain View, CA"; // Change to your desired address
     const mapsUrl = `https://www.google.com/maps?q=${encodeURIComponent(
@@ -17,23 +62,15 @@ const AboutUs = () => {
       <Container>
         <LeftColumn>
           <Logo src="/logo.png" alt="Cilla Smaragdis Logo" />
-          <Tagline>Luxury Apartments</Tagline>
-          <Title>NoCo Life in the Heart of Greeley</Title>
+          <Tagline>{translations[language].tagline}</Tagline>
+          <Title>{translations[language].title}</Title>
           <Separator />
         </LeftColumn>
         <RightColumn>
-          <Description>
-            In the heart of Greeley, Cilla Smaragdis offers deluxe living and
-            newly designed apartments within walking distance to countless
-            shops, restaurants, and schools. If you've been searching for a
-            balance between amazing amenities and high-end finishes in a central
-            location - your search is over. Quietly tucked away, yet close to
-            all of life's modern conveniences, see why Cilla Smaragdis is the
-            perfect place to call home.
-          </Description>
+          <Description>{translations[language].description}</Description>
           <ViewButton onClick={handleGetDirections}>
             <FontAwesomeIcon icon={faMapMarkerAlt} />
-            &nbsp;Get Location
+            &nbsp;{translations[language].button}
           </ViewButton>
         </RightColumn>
       </Container>

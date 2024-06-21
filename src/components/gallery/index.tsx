@@ -1,39 +1,74 @@
+// src/components/Gallery.tsx
+
 "use client";
 import styled from "styled-components";
 import Link from "next/link";
+import { useLanguage } from "@/context/LanguageContext"; // Import the useLanguage hook
+
+const translations = {
+  SR: {
+    overlayTexts: [
+      "Udoban boravak",
+      "Luksuzna soba",
+      "Prekrasna priroda",
+      "Moderan dizajn",
+    ],
+    viewGallery: "Pogledajte celu galeriju",
+  },
+  EN: {
+    overlayTexts: [
+      "Comfortable Stay",
+      "Luxury Room",
+      "Beautiful Nature",
+      "Modern Design",
+    ],
+    viewGallery: "View Full Gallery",
+  },
+  DE: {
+    overlayTexts: [
+      "Komfortabler Aufenthalt",
+      "Luxuszimmer",
+      "Schöne Natur",
+      "Modernes Design",
+    ],
+    viewGallery: "Vollständige Galerie ansehen",
+  },
+};
 
 const Gallery = () => {
+  const { language } = useLanguage(); // Get the current language from the context
+
   return (
     <GallerySection>
       <ImageGrid>
         <ImageWrapper>
           <Image src="/image1.jpg" alt="1-BEDROOM PHASE I" />
           <Overlay>
-            <OverlayText>Comfortable Stay</OverlayText>
+            <OverlayText>{translations[language].overlayTexts[0]}</OverlayText>
           </Overlay>
         </ImageWrapper>
         <ImageWrapper>
           <Image src="/image4.jpg" alt="1-BEDROOM PHASE II" />
           <Overlay>
-            <OverlayText>Luxury Room</OverlayText>
+            <OverlayText>{translations[language].overlayTexts[1]}</OverlayText>
           </Overlay>
         </ImageWrapper>
         <ImageWrapper>
           <Image src="/image5.jpg" alt="2-BEDROOM PHASE I" />
           <Overlay>
-            <OverlayText>Beautiful Nature</OverlayText>
+            <OverlayText>{translations[language].overlayTexts[2]}</OverlayText>
           </Overlay>
         </ImageWrapper>
         <ImageWrapper>
           <Image src="/image8.jpg" alt="2-BEDROOM PHASE II" />
           <Overlay>
-            <OverlayText>Modern Design</OverlayText>
+            <OverlayText>{translations[language].overlayTexts[3]}</OverlayText>
           </Overlay>
         </ImageWrapper>
       </ImageGrid>
       <ButtonWrapper>
         <Link href="/gallery" passHref>
-          <ViewButton>View Full Gallery</ViewButton>
+          <ViewButton>{translations[language].viewGallery}</ViewButton>
         </Link>
       </ButtonWrapper>
     </GallerySection>

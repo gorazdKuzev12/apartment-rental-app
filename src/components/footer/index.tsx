@@ -1,12 +1,63 @@
-// components/Footer.js
+// src/components/Footer.js
+
 "use client";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useLanguage } from "@/context/LanguageContext"; // Import the useLanguage hook
+
+const translations = {
+  SR: {
+    contactUs: "Kontaktirajte nas",
+    address: "3769 W. 25th Street,\nNovi Sad, Srbija",
+    getDirections: "Pronađi lokaciju",
+    menu: "Meni",
+    home: "Početna",
+    book: "Rezerviši",
+    gallery: "Galerija",
+    about: "O nama",
+    contact: "Kontakt",
+    links: "Linkovi",
+    residentLogin: "Prijava za stanare",
+    privacyPolicy: "Politika privatnosti",
+    accessibilityStatement: "Izjava o pristupačnosti",
+  },
+  EN: {
+    contactUs: "Contact Us",
+    address: "3769 W. 25th Street,\nNovi Sad, Serbia",
+    getDirections: "Get Directions",
+    menu: "Menu",
+    home: "Home",
+    book: "Book",
+    gallery: "Gallery",
+    about: "About",
+    contact: "Contact",
+    links: "Links",
+    residentLogin: "Resident Login",
+    privacyPolicy: "Privacy Policy",
+    accessibilityStatement: "Accessibility Statement",
+  },
+  DE: {
+    contactUs: "Kontaktieren Sie uns",
+    address: "3769 W. 25th Street,\nNovi Sad, Serbien",
+    getDirections: "Wegbeschreibung",
+    menu: "Menü",
+    home: "Startseite",
+    book: "Buchen",
+    gallery: "Galerie",
+    about: "Über uns",
+    contact: "Kontakt",
+    links: "Links",
+    residentLogin: "Bewohner-Login",
+    privacyPolicy: "Datenschutzrichtlinie",
+    accessibilityStatement: "Barrierefreiheitserklärung",
+  },
+};
 
 const Footer = () => {
+  const { language } = useLanguage(); // Get the current language from the context
   const router = useRouter();
 
   const handleNavigation = async (path, hash) => {
@@ -23,17 +74,16 @@ const Footer = () => {
       }
     }, 100); // Check every 100ms
   };
+
   return (
     <FooterContainer>
       <FooterContent>
         <ContactColumn>
-          <ColumnTitle>Contact Us</ColumnTitle>
-          <Address>
-            3769 W. 25th Street,
-            <br />
-            Novi Sad, Serbia
-          </Address>
-          <GetDirections href="#">Get Directions</GetDirections>
+          <ColumnTitle>{translations[language].contactUs}</ColumnTitle>
+          <Address>{translations[language].address}</Address>
+          <GetDirections href="#">
+            {translations[language].getDirections}
+          </GetDirections>
           <SocialIcons>
             <SocialIcon href="#">
               <FontAwesomeIcon icon={faFacebook} />
@@ -44,34 +94,40 @@ const Footer = () => {
           </SocialIcons>
         </ContactColumn>
         <MenuColumn>
-          <ColumnTitle>Menu</ColumnTitle>
+          <ColumnTitle>{translations[language].menu}</ColumnTitle>
           <MenuList>
             <MenuItem onClick={() => handleNavigation("/", "home")}>
-              Home
+              {translations[language].home}
             </MenuItem>
             <MenuItem onClick={() => handleNavigation("/", "book-room")}>
-              Book
+              {translations[language].book}
             </MenuItem>
             <MenuItem as={Link} href="/gallery">
-              Gallery
+              {translations[language].gallery}
             </MenuItem>
             <MenuItem onClick={() => handleNavigation("/", "about-us")}>
-              About
+              {translations[language].about}
             </MenuItem>
             <MenuItem onClick={() => handleNavigation("/", "contact")}>
-              Contact
+              {translations[language].contact}
             </MenuItem>
           </MenuList>
         </MenuColumn>
         <LinksColumn>
-          <ColumnTitle>Links</ColumnTitle>
-          <LinkItem href="#">Resident Login</LinkItem>
+          <ColumnTitle>{translations[language].links}</ColumnTitle>
+          <LinkItem href="#">{translations[language].residentLogin}</LinkItem>
         </LinksColumn>
       </FooterContent>
       <FooterBottom>
         <Copyright>
-          © 2024 Your Company | <FooterLink href="#">Privacy Policy</FooterLink>{" "}
-          | <FooterLink href="#">Accessibility Statement</FooterLink>
+          © 2024 Your Company |{" "}
+          <FooterLink href="#">
+            {translations[language].privacyPolicy}
+          </FooterLink>{" "}
+          |{" "}
+          <FooterLink href="#">
+            {translations[language].accessibilityStatement}
+          </FooterLink>
         </Copyright>
       </FooterBottom>
     </FooterContainer>
@@ -95,15 +151,6 @@ const FooterContent = styled.div`
   max-width: 1200px;
 `;
 
-const LogoColumn = styled.div`
-  flex: 1;
-  min-width: 200px;
-`;
-
-const Logo = styled.img`
-  width: 100px;
-`;
-
 const ContactColumn = styled.div`
   flex: 1;
   min-width: 200px;
@@ -119,6 +166,7 @@ const ColumnTitle = styled.h4`
 
 const Address = styled.p`
   margin-bottom: 1rem;
+  white-space: pre-line; /* To maintain the line breaks */
 `;
 
 const GetDirections = styled.a`
@@ -178,22 +226,6 @@ const LinkItem = styled.a`
 
   &:hover {
     text-decoration: underline;
-  }
-`;
-
-const ContactButton = styled.a`
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  border: 2px solid #fff;
-  color: #fff;
-  text-transform: uppercase;
-  text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.3s ease, color 0.3s ease;
-
-  &:hover {
-    background-color: #fff;
-    color: #000;
   }
 `;
 

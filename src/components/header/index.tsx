@@ -4,10 +4,35 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa"; // Import icons for the hamburger menu
+import { useLanguage } from "@/context/LanguageContext";
+const translations = {
+  SR: {
+    home: "Početna",
+    book: "Rezerviši",
+    gallery: "Galerija",
+    about: "O nama",
+    contact: "Kontakt",
+  },
+  EN: {
+    home: "Home",
+    book: "Book",
+    gallery: "Gallery",
+    about: "About",
+    contact: "Contact",
+  },
+  DE: {
+    home: "Startseite",
+    book: "Buchen",
+    gallery: "Galerie",
+    about: "Über uns",
+    contact: "Kontakt",
+  },
+};
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false); // State to manage menu visibility
+  const { language, setLanguage } = useLanguage(); // Use the LanguageContext
   const router = useRouter();
 
   useEffect(() => {
@@ -44,6 +69,10 @@ const Header = () => {
     setMenuOpen(!menuOpen);
   };
 
+  const handleLanguageChange = (event) => {
+    setLanguage(event.target.value);
+  };
+
   return (
     <Nav className={scrolled ? "scrolled" : ""}>
       <Logo>
@@ -55,20 +84,27 @@ const Header = () => {
         {menuOpen ? <FaTimes /> : <FaBars />}
       </Hamburger>
       <NavMenu className={menuOpen ? "open" : ""}>
-        <NavItem onClick={() => handleNavigation("/", "home")}>Home</NavItem>
+        <NavItem onClick={() => handleNavigation("/", "home")}>
+          {translations[language].home}
+        </NavItem>
         <NavItem onClick={() => handleNavigation("/", "book-room")}>
-          Book
+          {translations[language].book}
         </NavItem>
         <NavItem as={Link} href="/gallery">
-          Gallery
+          {translations[language].gallery}
         </NavItem>
         <NavItem onClick={() => handleNavigation("/", "about-us")}>
-          About
+          {translations[language].about}
         </NavItem>
         <NavItem onClick={() => handleNavigation("/", "contact")}>
-          Contact
+          {translations[language].contact}
         </NavItem>
       </NavMenu>
+      <LanguageSelect value={language} onChange={handleLanguageChange}>
+        <option value="SR">Serbian</option>
+        <option value="EN">English (US)</option>
+        <option value="DE">German</option>
+      </LanguageSelect>
     </Nav>
   );
 };
@@ -161,6 +197,23 @@ const NavItem = styled.a`
     &:hover {
       border-bottom: none;
     }
+  }
+`;
+
+const LanguageSelect = styled.select`
+  font-size: 1rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  margin-left: 1rem;
+
+  option {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
   }
 `;
 

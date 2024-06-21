@@ -2,10 +2,33 @@
 
 import { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useLanguage } from "@/context/LanguageContext";
+
+const translations = {
+  SR: {
+    title: "Vaš put ka dobrom životu",
+    subtitle:
+      "Kolekcija novih i novodizajniranih jednosobnih i dvosobnih apartmana.",
+    book: "Rezervišite apartman",
+  },
+  EN: {
+    title: "Your Gateway to the Good Life",
+    subtitle:
+      "A collection of new and newly designed one- and two-bedroom apartments.",
+    book: "Book the Apartment",
+  },
+  DE: {
+    title: "Ihr Tor zum guten Leben",
+    subtitle:
+      "Eine Sammlung neuer und neu gestalteter Ein- und Zweizimmerwohnungen.",
+    book: "Buchen Sie das Apartment",
+  },
+};
 
 const Main = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const images = ["/image1.jpg", "/image2.jpg", "/image3.jpg"]; // Add your image paths here
+  const { language } = useLanguage();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -19,12 +42,9 @@ const Main = () => {
     <HeroSection>
       <Overlay>
         <Content>
-          <Title>Your Gateway to the Good Life</Title>
-          <Subtitle>
-            A collection of new and newly designed one- and two-bedroom
-            apartments.
-          </Subtitle>
-          <BookButton>Book the Apartment</BookButton>
+          <Title>{translations[language].title}</Title>
+          <Subtitle>{translations[language].subtitle}</Subtitle>
+          <BookButton>{translations[language].book}</BookButton>
         </Content>
       </Overlay>
       <ImageScroller>
