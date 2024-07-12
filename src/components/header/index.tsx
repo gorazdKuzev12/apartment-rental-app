@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa"; // Import icons for the hamburger menu
 import { useLanguage } from "@/context/LanguageContext";
-const translations = {
+const translations: { [key: string]: { [key: string]: string } } = {
   SR: {
     home: "Početna",
     book: "Rezerviši",
@@ -48,7 +48,7 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleNavigation = async (path, hash) => {
+  const handleNavigation = async (path: string, hash: string) => {
     await router.push(path);
 
     // Polling to check if the element exists
@@ -69,7 +69,7 @@ const Header = () => {
     setMenuOpen(!menuOpen);
   };
 
-  const handleLanguageChange = (event) => {
+  const handleLanguageChange = (event: { target: { value: any } }) => {
     setLanguage(event.target.value);
   };
 
