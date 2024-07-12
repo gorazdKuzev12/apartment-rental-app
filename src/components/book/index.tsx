@@ -9,7 +9,21 @@ import { collection, addDoc, getDocs } from "firebase/firestore";
 import { db } from "../.././../firebase"; // Adjust the path as needed
 import { useLanguage } from "@/context/LanguageContext"; // Import the useLanguage hook
 
-const translations = {
+const translations: {
+  [key: string]: {
+    title: string;
+    description: string;
+    name: string;
+    email: string;
+    phone: string;
+    checkIn: string;
+    checkOut: string;
+    submit: string;
+    successTitle: string;
+    successMessage: string;
+    close: string;
+  };
+} = {
   SR: {
     title: "Kontaktirajte naš tim za izdavanje još danas",
     description:
@@ -59,9 +73,9 @@ const translations = {
 
 const BookNow = () => {
   const { language } = useLanguage(); // Get the current language from the context
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  const [bookedDates, setBookedDates] = useState([]);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [bookedDates, setBookedDates] = useState<Date[]>([]);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -76,7 +90,7 @@ const BookNow = () => {
     const fetchBookedDates = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "Bookings"));
-        const dates = [];
+        const dates: Date[] | ((prevState: never[]) => never[]) = [];
         querySnapshot.forEach((doc) => {
           const data = doc.data();
           const checkIn =
@@ -105,7 +119,7 @@ const BookNow = () => {
     fetchBookedDates();
   }, []);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -113,14 +127,14 @@ const BookNow = () => {
     });
   };
 
-  const handleDateChange = (name, date) => {
+  const handleDateChange = (name: string, date: Date | null) => {
     setFormData({
       ...formData,
       [name]: date,
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
       await addDoc(collection(db, "Bookings"), formData);
@@ -186,7 +200,7 @@ const BookNow = () => {
               <Label htmlFor="checkIn">{translations[language].checkIn}</Label>
               <StyledDatePicker
                 selected={startDate}
-                onChange={(date) => {
+                onChange={(date: Date | null) => {
                   setStartDate(date);
                   handleDateChange("checkIn", date);
                 }}
@@ -202,7 +216,7 @@ const BookNow = () => {
               </Label>
               <StyledDatePicker
                 selected={endDate}
-                onChange={(date) => {
+                onChange={(date: Date | null) => {
                   setEndDate(date);
                   handleDateChange("checkOut", date);
                 }}

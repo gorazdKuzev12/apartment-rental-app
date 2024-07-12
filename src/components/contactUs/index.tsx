@@ -1,34 +1,40 @@
 // src/components/ContactUs.tsx
 
 "use client";
-import { faPhone, faInstagram } from "@fortawesome/free-solid-svg-icons";
+import { faPhone } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLanguage } from "@/context/LanguageContext"; // Import the useLanguage hook
 
-const translations = {
-  SR: {
-    subtitle: "Uvek tu za vas",
-    title: "Poboljšanje vašeg životnog iskustva",
-    phone: "Pozovite nas",
-    instagram: "Kontaktirajte nas na Instagramu",
-  },
-  EN: {
-    subtitle: "Always Here for You",
-    title: "Enhancing Your Living Experience",
-    phone: "Call Us",
-    instagram: "Contact us on Instagram",
-  },
-  DE: {
-    subtitle: "Immer für Sie da",
-    title: "Verbesserung Ihres Wohnerlebnisses",
-    phone: "Rufen Sie uns an",
-    instagram: "Kontaktieren Sie uns auf Instagram",
-  },
-};
-
 const ContactUs = () => {
   const { language } = useLanguage(); // Get the current language from the context
+  const translations: {
+    [key: string]: {
+      subtitle: string;
+      title: string;
+      phone: string;
+      instagram: string;
+    };
+  } = {
+    SR: {
+      subtitle: "Uvek tu za vas",
+      title: "Poboljšanje vašeg životnog iskustva",
+      phone: "Pozovite nas",
+      instagram: "Kontaktirajte nas na Instagramu",
+    },
+    EN: {
+      subtitle: "Always Here for You",
+      title: "Enhancing Your Living Experience",
+      phone: "Call Us",
+      instagram: "Contact us on Instagram",
+    },
+    DE: {
+      subtitle: "Immer für Sie da",
+      title: "Verbesserung Ihres Wohnerlebnisses",
+      phone: "Rufen Sie uns an",
+      instagram: "Kontaktieren Sie uns auf Instagram",
+    },
+  };
 
   return (
     <ContactSection id="contact">
@@ -45,7 +51,7 @@ const ContactUs = () => {
               href="https://www.instagram.com/youraccount"
               target="_blank"
             >
-              <FontAwesomeIcon icon={faInstagram} />
+              {/* <FontAwesomeIcon icon={faInstagram} /> */}
               &nbsp;{translations[language].instagram}
             </InstagramButton>
           </ContactInfo>

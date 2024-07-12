@@ -5,38 +5,42 @@ import styled from "styled-components";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext"; // Import the useLanguage hook
 
-const translations = {
-  SR: {
-    overlayTexts: [
-      "Udoban boravak",
-      "Luksuzna soba",
-      "Prekrasna priroda",
-      "Moderan dizajn",
-    ],
-    viewGallery: "Pogledajte celu galeriju",
-  },
-  EN: {
-    overlayTexts: [
-      "Comfortable Stay",
-      "Luxury Room",
-      "Beautiful Nature",
-      "Modern Design",
-    ],
-    viewGallery: "View Full Gallery",
-  },
-  DE: {
-    overlayTexts: [
-      "Komfortabler Aufenthalt",
-      "Luxuszimmer",
-      "Schöne Natur",
-      "Modernes Design",
-    ],
-    viewGallery: "Vollständige Galerie ansehen",
-  },
-};
-
 const Gallery = () => {
   const { language } = useLanguage(); // Get the current language from the context
+  const translations: {
+    [key: string]: {
+      overlayTexts: string[];
+      viewGallery: string;
+    };
+  } = {
+    SR: {
+      overlayTexts: [
+        "Udoban boravak",
+        "Luksuzna soba",
+        "Prekrasna priroda",
+        "Moderan dizajn",
+      ],
+      viewGallery: "Pogledajte celu galeriju",
+    },
+    EN: {
+      overlayTexts: [
+        "Comfortable Stay",
+        "Luxury Room",
+        "Beautiful Nature",
+        "Modern Design",
+      ],
+      viewGallery: "View Full Gallery",
+    },
+    DE: {
+      overlayTexts: [
+        "Komfortabler Aufenthalt",
+        "Luxuszimmer",
+        "Schöne Natur",
+        "Modernes Design",
+      ],
+      viewGallery: "Vollständige Galerie ansehen",
+    },
+  };
 
   return (
     <GallerySection>
