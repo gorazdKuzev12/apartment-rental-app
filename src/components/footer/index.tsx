@@ -1,4 +1,4 @@
-// src/components/Footer.js
+// src/components/Footer.tsx
 
 "use client";
 import styled from "styled-components";
@@ -8,7 +8,23 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext"; // Import the useLanguage hook
 
-const translations = {
+const translations: {
+  [key: string]: {
+    contactUs: string;
+    address: string;
+    getDirections: string;
+    menu: string;
+    home: string;
+    book: string;
+    gallery: string;
+    about: string;
+    contact: string;
+    links: string;
+    residentLogin: string;
+    privacyPolicy: string;
+    accessibilityStatement: string;
+  };
+} = {
   SR: {
     contactUs: "Kontaktirajte nas",
     address: "3769 W. 25th Street,\nNovi Sad, Srbija",
@@ -55,12 +71,11 @@ const translations = {
     accessibilityStatement: "Barrierefreiheitserklärung",
   },
 };
-
 const Footer = () => {
   const { language } = useLanguage(); // Get the current language from the context
   const router = useRouter();
 
-  const handleNavigation = async (path, hash) => {
+  const handleNavigation = async (path: string, hash: string) => {
     await router.push(path);
 
     // Polling to check if the element exists

@@ -7,7 +7,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import { useLanguage } from "@/context/LanguageContext"; // Import the useLanguage hook
 
-const translations = {
+const translations: {
+  [key: string]: {
+    tagline: string;
+    title: string;
+    description: string;
+    button: string;
+  };
+} = {
   SR: {
     tagline: "Luksuzni Apartmani",
     title: "NoCo život u srcu Greeley-a",

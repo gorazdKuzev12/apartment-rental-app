@@ -4,7 +4,13 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useLanguage } from "@/context/LanguageContext";
 
-const translations = {
+const translations: {
+  [key: string]: {
+    title: string;
+    subtitle: string;
+    book: string;
+  };
+} = {
   SR: {
     title: "Vaš put ka dobrom životu",
     subtitle:
@@ -163,7 +169,11 @@ const ImageScroller = styled.div`
   width: 100%;
 `;
 
-const Image = styled.img`
+type ImageProps = {
+  active: boolean;
+};
+
+const Image = styled.img<ImageProps>`
   position: absolute;
   width: 100%;
   height: 100%;

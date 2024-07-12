@@ -1,7 +1,7 @@
 // src/pages/gallery.tsx
 
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, SetStateAction } from "react";
 import styled from "styled-components";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
@@ -23,7 +23,9 @@ const images = [
   // Add more image paths as needed
 ];
 
-const translations = {
+const translations: {
+  [key: string]: { welcome: string; explore: string; gallery: string };
+} = {
   SR: {
     welcome: "Dobrodošli u našu galeriju",
     explore: "Istražite našu izvanrednu kolekciju slika",
@@ -43,9 +45,11 @@ const translations = {
 
 const GalleryPage = () => {
   const { language } = useLanguage(); // Get the current language from the context
-  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
+    null
+  );
 
-  const openModal = (index) => {
+  const openModal = (index: SetStateAction<number | null>) => {
     setSelectedImageIndex(index);
   };
 
@@ -53,21 +57,21 @@ const GalleryPage = () => {
     setSelectedImageIndex(null);
   };
 
-  const showPreviousImage = (e) => {
-    e.stopPropagation();
+  const showPreviousImage = (e: { stopPropagation?: () => void }) => {
+    e.stopPropagation?.();
     setSelectedImageIndex((prevIndex) =>
-      prevIndex > 0 ? prevIndex - 1 : images.length - 1
+      (prevIndex ?? 0) > 0 ? (prevIndex ?? 0) - 1 : images.length - 1
     );
   };
 
-  const showNextImage = (e) => {
-    e.stopPropagation();
+  const showNextImage = (e: { stopPropagation?: () => void }) => {
+    e.stopPropagation?.();
     setSelectedImageIndex((prevIndex) =>
-      prevIndex < images.length - 1 ? prevIndex + 1 : 0
+      (prevIndex ?? 0) < images.length - 1 ? (prevIndex ?? 0) + 1 : 0
     );
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: { key?: any; stopPropagation?: () => void }) => {
     if (e.key === "Escape") {
       closeModal();
     } else if (e.key === "ArrowLeft") {
@@ -323,8 +327,6 @@ const NavButton = styled.div`
   align-items: center;
   cursor: pointer;
   user-select: none;
-  transition: background 0.3s ease;
-
   &:hover {
     background: rgba(0, 0, 0, 0.8);
   }
