@@ -1,8 +1,11 @@
+// src/pages/gallery.tsx
+
 "use client";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import { useLanguage } from "@/context/LanguageContext"; // Import the useLanguage hook
 
 const images = [
   "/image1.jpg",
@@ -20,7 +23,26 @@ const images = [
   // Add more image paths as needed
 ];
 
+const translations = {
+  SR: {
+    welcome: "Dobrodošli u našu galeriju",
+    explore: "Istražite našu izvanrednu kolekciju slika",
+    gallery: "Galerija",
+  },
+  EN: {
+    welcome: "Welcome to Our Gallery",
+    explore: "Explore our exquisite collection of images",
+    gallery: "Gallery",
+  },
+  DE: {
+    welcome: "Willkommen in unserer Galerie",
+    explore: "Entdecken Sie unsere exquisite Sammlung von Bildern",
+    gallery: "Galerie",
+  },
+};
+
 const GalleryPage = () => {
+  const { language } = useLanguage(); // Get the current language from the context
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
 
   const openModal = (index) => {
@@ -86,15 +108,13 @@ const GalleryPage = () => {
       <HeroSection>
         <HeroOverlay>
           <HeroContent>
-            <HeroTitle>Welcome to Our Gallery</HeroTitle>
-            <HeroSubtitle>
-              Explore our exquisite collection of images
-            </HeroSubtitle>
+            <HeroTitle>{translations[language].welcome}</HeroTitle>
+            <HeroSubtitle>{translations[language].explore}</HeroSubtitle>
           </HeroContent>
         </HeroOverlay>
       </HeroSection>
       <TitleSection>
-        <Title>Gallery</Title>
+        <Title>{translations[language].gallery}</Title>
       </TitleSection>
       <GallerySection>
         <ImageGrid>
