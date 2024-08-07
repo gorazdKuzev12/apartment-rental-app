@@ -1,5 +1,3 @@
-// src/components/Footer.tsx
-
 "use client";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -27,7 +25,7 @@ const translations: {
 } = {
   SR: {
     contactUs: "Kontaktirajte nas",
-    address: "3769 W. 25th Street,\nNovi Sad, Srbija",
+    address: "Kaludjerica 52, Čerević 21311, Serbia",
     getDirections: "Pronađi lokaciju",
     menu: "Meni",
     home: "Početna",
@@ -42,7 +40,7 @@ const translations: {
   },
   EN: {
     contactUs: "Contact Us",
-    address: "3769 W. 25th Street,\nNovi Sad, Serbia",
+    address: "Kaludjerica 52, Čerević 21311, Serbia",
     getDirections: "Get Directions",
     menu: "Menu",
     home: "Home",
@@ -57,7 +55,7 @@ const translations: {
   },
   DE: {
     contactUs: "Kontaktieren Sie uns",
-    address: "3769 W. 25th Street,\nNovi Sad, Serbien",
+    address: "Kaludjerica 52, Čerević 21311, Serbia",
     getDirections: "Wegbeschreibung",
     menu: "Menü",
     home: "Startseite",
@@ -71,6 +69,7 @@ const translations: {
     accessibilityStatement: "Barrierefreiheitserklärung",
   },
 };
+
 const Footer = () => {
   const { language } = useLanguage(); // Get the current language from the context
   const router = useRouter();
@@ -90,13 +89,21 @@ const Footer = () => {
     }, 100); // Check every 100ms
   };
 
+  const handleGetDirections = () => {
+    const address = translations[language].address;
+    const mapsUrl = `https://www.google.com/maps?q=${encodeURIComponent(
+      address
+    )}`;
+    window.open(mapsUrl, "_blank");
+  };
+
   return (
     <FooterContainer>
       <FooterContent>
         <ContactColumn>
           <ColumnTitle>{translations[language].contactUs}</ColumnTitle>
           <Address>{translations[language].address}</Address>
-          <GetDirections href="#">
+          <GetDirections onClick={handleGetDirections}>
             {translations[language].getDirections}
           </GetDirections>
           <SocialIcons>

@@ -18,7 +18,7 @@ const translations: { [key: string]: { [key: string]: string } } = {
     checkIn: "Datum dolaska",
     checkOut: "Datum odlaska",
     question: "Pitanje",
-    submit: "Rezerviši",
+    submit: "Upitaj",
     successTitle: "Uspešno rezervisano!",
     successMessage: "Vaša rezervacija je na čekanju. Kontaktiraće vas vlasnik.",
     close: "Zatvori",
@@ -32,7 +32,7 @@ const translations: { [key: string]: { [key: string]: string } } = {
     checkIn: "Check-In",
     checkOut: "Check-Out",
     question: "Question",
-    submit: "Book",
+    submit: "Inquire",
     successTitle: "Booking Successful!",
     successMessage: "Your booking is pending. The owner will contact you.",
     close: "Close",
@@ -46,7 +46,7 @@ const translations: { [key: string]: { [key: string]: string } } = {
     checkIn: "Einzugsdatum",
     checkOut: "Auszugsdatum",
     question: "Frage",
-    submit: "Buchen",
+    submit: "Anfragen",
     successTitle: "Buchung erfolgreich!",
     successMessage:
       "Ihre Buchung steht aus. Der Eigentümer wird Sie kontaktieren.",
@@ -74,27 +74,36 @@ const BookNow = () => {
     const fetchBookedDates = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "Bookings"));
+        console.log("QuerySnapshot:", querySnapshot);
         const dates: Date[] = [];
         querySnapshot.forEach((doc) => {
           const data = doc.data();
-          const checkIn =
-            data.checkIn instanceof Date
-              ? data.checkIn
-              : new Date(data.checkIn);
-          const checkOut =
-            data.checkOut instanceof Date
-              ? data.checkOut
-              : new Date(data.checkOut);
-          // Generate all dates between check-in and check-out
-          for (
-            let d = new Date(checkIn);
-            d <= new Date(checkOut);
-            d.setDate(d.getDate() + 1)
-          ) {
-            dates.push(new Date(d));
+          console.log("Document data:", data);
+
+          if (data.checkIn && data.checkOut) {
+            const checkIn = data.checkIn.toDate();
+            const checkOut = data.checkOut.toDate();
+
+            // console.log("Parsed check-in date:", checkIn);
+            // console.log("Parsed check-out date:", checkOut);
+
+            // Generate all dates between check-in and check-out
+            for (
+              let d = new Date(checkIn);
+              d <= new Date(checkOut);
+              d.setDate(d.getDate() + 1)
+            ) {
+              dates.push(new Date(d));
+            }
+          } else {
+            console.warn(
+              "Missing checkIn or checkOut date in document:",
+              doc.id
+            );
           }
         });
         setBookedDates(dates);
+        console.log("Fetched booked dates:", dates);
       } catch (error) {
         console.error("Error fetching booked dates: ", error);
       }
@@ -102,6 +111,8 @@ const BookNow = () => {
 
     fetchBookedDates();
   }, []);
+
+  console.log(bookedDates);
 
   const handleInputChange = (e: { target: { name: any; value: any } }) => {
     const { name, value } = e.target;

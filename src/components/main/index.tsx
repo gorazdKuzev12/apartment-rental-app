@@ -18,21 +18,33 @@ const translations: {
     book: "Rezervišite apartman",
   },
   EN: {
-    title: "Your Gateway to the Good Life",
+    title: "Blend of Nature and Comfort",
     subtitle:
-      "A collection of new and newly designed one- and two-bedroom apartments.",
+      "Villa Smaragdis offers top-notch comfort, luxury, and tranquility. Ideal for nature lovers and those seeking a quality vacation.",
     book: "Book the Apartment",
   },
   DE: {
-    title: "Ihr Tor zum guten Leben",
+    title: "Kombination von Natur und Komfort",
     subtitle:
-      "Eine Sammlung neuer und neu gestalteter Ein- und Zweizimmerwohnungen.",
+      "Villa Smaragdis bietet erstklassigen Komfort, Luxus und Ruhe. Ideal für Naturliebhaber und alle, die einen hochwertigen Urlaub suchen.",
     book: "Buchen Sie das Apartment",
   },
 };
 
 const Main = () => {
   const { language } = useLanguage();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <HeroSection>
@@ -43,10 +55,14 @@ const Main = () => {
           <BookButton>{translations[language].book}</BookButton>
         </Content>
       </Overlay>
-      <VideoBackground autoPlay loop muted>
-        <source src="/video.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </VideoBackground>
+      {isMobile ? (
+        <ImageBackground src="/image1.jpg" alt="Background" />
+      ) : (
+        <VideoBackground autoPlay loop muted playsInline>
+          <source src="/video.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </VideoBackground>
+      )}
     </HeroSection>
   );
 };
@@ -145,6 +161,16 @@ const BookButton = styled.button`
 `;
 
 const VideoBackground = styled.video`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+`;
+
+const ImageBackground = styled.img`
   position: absolute;
   top: 0;
   left: 0;
