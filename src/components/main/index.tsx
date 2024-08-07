@@ -12,9 +12,9 @@ const translations: {
   };
 } = {
   SR: {
-    title: "Vaš put ka dobrom životu",
+    title: "Spoj prirode i konfora",
     subtitle:
-      "Kolekcija novih i novodizajniranih jednosobnih i dvosobnih apartmana.",
+      "Vila Smaragdis pruža vrhunski konfor, luksuz i mir. Idealna za ljubitelje prirode i sve koji traže kvalitetan odmor.",
     book: "Rezervišite apartman",
   },
   EN: {
@@ -32,17 +32,7 @@ const translations: {
 };
 
 const Main = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const images = ["/image1.jpg", "/image2.jpg", "/image3.jpg"]; // Add your image paths here
   const { language } = useLanguage();
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 2500); // Change image every 2.5 seconds
-
-    return () => clearInterval(interval); // Cleanup the interval on component unmount
-  }, [images.length]);
 
   return (
     <HeroSection>
@@ -53,16 +43,10 @@ const Main = () => {
           <BookButton>{translations[language].book}</BookButton>
         </Content>
       </Overlay>
-      <ImageScroller>
-        {images.map((src, index) => (
-          <Image
-            key={index}
-            src={src}
-            alt={`Apartment ${index + 1}`}
-            active={index === currentIndex}
-          />
-        ))}
-      </ImageScroller>
+      <VideoBackground autoPlay loop muted>
+        <source src="/video.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </VideoBackground>
     </HeroSection>
   );
 };
@@ -160,26 +144,14 @@ const BookButton = styled.button`
   }
 `;
 
-const ImageScroller = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-`;
-
-type ImageProps = {
-  active: boolean;
-};
-
-const Image = styled.img<ImageProps>`
+const VideoBackground = styled.video`
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: ${({ active }) => (active ? 1 : 0)};
-  transition: opacity 0.5s ease;
+  z-index: 0;
 `;
 
 export default Main;

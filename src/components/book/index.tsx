@@ -1,5 +1,3 @@
-// src/components/BookNow.tsx
-
 "use client";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
@@ -18,6 +16,7 @@ const translations: {
     phone: string;
     checkIn: string;
     checkOut: string;
+    question: string;
     submit: string;
     successTitle: string;
     successMessage: string;
@@ -25,48 +24,46 @@ const translations: {
   };
 } = {
   SR: {
-    title: "Kontaktirajte naš tim za izdavanje još danas",
-    description:
-      "Naš tim je srećan da odgovori na sva vaša pitanja o dostupnosti, cenama i da zakaže obilazak kako biste pronašli svoj novi dom.",
-    name: "Ime*",
+    title: "Rezervišite danas",
+    description: "Kontaktirajte naš tim za više informacija.",
+    name: "Ime",
     email: "Email*",
     phone: "Telefon",
     checkIn: "Datum dolaska",
     checkOut: "Datum odlaska",
+    question: "Pitanje",
     submit: "Rezerviši",
-    successTitle: "Rezervacija uspešna!",
-    successMessage:
-      "Vaša rezervacija je uspešno izvršena i sada je na čekanju. Molimo sačekajte da vas vlasnik kontaktira pre nego što bude prihvaćena.",
+    successTitle: "Uspešno rezervisano!",
+    successMessage: "Vaša rezervacija je na čekanju. Kontaktiraće vas vlasnik.",
     close: "Zatvori",
   },
   EN: {
-    title: "Get In Touch With Our Leasing Team Today",
-    description:
-      "Our team is happy to answer any questions on availability, pricing, and to schedule a tour to find your new home.",
+    title: "Book Now",
+    description: "Contact our team for more information.",
     name: "Name*",
     email: "Email*",
     phone: "Phone",
-    checkIn: "Move-In Date",
-    checkOut: "Move-Out Date",
+    checkIn: "Check-In",
+    checkOut: "Check-Out",
+    question: "Question",
     submit: "Book",
     successTitle: "Booking Successful!",
-    successMessage:
-      "Your booking was successful and is now pending. Please wait for the owner to contact you before it is accepted.",
+    successMessage: "Your booking is pending. The owner will contact you.",
     close: "Close",
   },
   DE: {
-    title: "Kontaktieren Sie noch heute unser Vermietungsteam",
-    description:
-      "Unser Team beantwortet gerne alle Ihre Fragen zur Verfügbarkeit, Preisgestaltung und zur Terminvereinbarung für eine Besichtigung, um Ihr neues Zuhause zu finden.",
+    title: "Jetzt buchen",
+    description: "Kontaktieren Sie unser Team für weitere Informationen.",
     name: "Name*",
     email: "Email*",
     phone: "Telefon",
     checkIn: "Einzugsdatum",
     checkOut: "Auszugsdatum",
+    question: "Frage",
     submit: "Buchen",
     successTitle: "Buchung erfolgreich!",
     successMessage:
-      "Ihre Buchung war erfolgreich und ist jetzt ausstehend. Bitte warten Sie, bis der Eigentümer Sie kontaktiert, bevor sie akzeptiert wird.",
+      "Ihre Buchung steht aus. Der Eigentümer wird Sie kontaktieren.",
     close: "Schließen",
   },
 };
@@ -82,6 +79,7 @@ const BookNow = () => {
     phone: "",
     checkIn: "",
     checkOut: "",
+    question: "",
     status: "Pending",
   });
   const [showModal, setShowModal] = useState(false);
@@ -90,7 +88,7 @@ const BookNow = () => {
     const fetchBookedDates = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "Bookings"));
-        const dates: Date[] | ((prevState: never[]) => never[]) = [];
+        const dates: Date[] = [];
         querySnapshot.forEach((doc) => {
           const data = doc.data();
           const checkIn =
@@ -137,7 +135,11 @@ const BookNow = () => {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     try {
-      await addDoc(collection(db, "Bookings"), formData);
+      await addDoc(collection(db, "Bookings"), {
+        ...formData,
+        checkIn: startDate,
+        checkOut: endDate,
+      });
       setShowModal(true);
       setFormData({
         name: "",
@@ -145,13 +147,14 @@ const BookNow = () => {
         phone: "",
         checkIn: "",
         checkOut: "",
+        question: "",
         status: "Pending",
       });
       setStartDate(null);
       setEndDate(null);
     } catch (error) {
       console.error("Error adding document: ", error);
-      alert("Failed to submit booking request.");
+      alert(`Failed to submit booking request.`);
     }
   };
 
@@ -164,68 +167,75 @@ const BookNow = () => {
         </LeftColumn>
         <RightColumn>
           <Form onSubmit={handleSubmit}>
-            <InputWrapper>
-              <Label htmlFor="name">{translations[language].name}</Label>
-              <Input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                required
-              />
-            </InputWrapper>
-            <InputWrapper>
-              <Label htmlFor="email">{translations[language].email}</Label>
-              <Input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-              />
-            </InputWrapper>
-            <InputWrapper>
-              <Label htmlFor="phone">{translations[language].phone}</Label>
-              <Input
-                type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-              />
-            </InputWrapper>
-            <InputWrapper>
-              <Label htmlFor="checkIn">{translations[language].checkIn}</Label>
-              <StyledDatePicker
-                selected={startDate}
-                onChange={(date: Date | null) => {
-                  setStartDate(date);
-                  handleDateChange("checkIn", date);
-                }}
-                dateFormat="MM/dd/yyyy"
-                placeholderText={translations[language].checkIn}
-                excludeDates={bookedDates}
-                required
-              />
-            </InputWrapper>
-            <InputWrapper>
-              <Label htmlFor="checkOut">
-                {translations[language].checkOut}
-              </Label>
-              <StyledDatePicker
-                selected={endDate}
-                onChange={(date: Date | null) => {
-                  setEndDate(date);
-                  handleDateChange("checkOut", date);
-                }}
-                dateFormat="MM/dd/yyyy"
-                placeholderText={translations[language].checkOut}
-                excludeDates={bookedDates}
-                required
-              />
-            </InputWrapper>
+            <FormRow>
+              <InputWrapper>
+                <Input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  placeholder={translations[language].name}
+                  required
+                />
+              </InputWrapper>
+              <InputWrapper>
+                <Input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder={translations[language].email}
+                  required
+                />
+              </InputWrapper>
+            </FormRow>
+            <FormRow>
+              <InputWrapper>
+                <Input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  placeholder={translations[language].phone}
+                />
+              </InputWrapper>
+              <InputWrapper>
+                <StyledDatePicker
+                  selected={startDate}
+                  onChange={(date: Date | null) => {
+                    setStartDate(date);
+                    handleDateChange("checkIn", date);
+                  }}
+                  dateFormat="MM/dd/yyyy"
+                  placeholderText={translations[language].checkIn}
+                  excludeDates={bookedDates}
+                  required
+                />
+              </InputWrapper>
+              <InputWrapper>
+                <StyledDatePicker
+                  selected={endDate}
+                  onChange={(date: Date | null) => {
+                    setEndDate(date);
+                    handleDateChange("checkOut", date);
+                  }}
+                  dateFormat="MM/dd/yyyy"
+                  placeholderText={translations[language].checkOut}
+                  excludeDates={bookedDates}
+                  required
+                />
+              </InputWrapper>
+            </FormRow>
+            <FormRow>
+              <InputWrapper fullWidth>
+                <Textarea
+                  name="question"
+                  value={formData.question}
+                  onChange={handleInputChange}
+                  placeholder={translations[language].question}
+                />
+              </InputWrapper>
+            </FormRow>
             <ButtonWrapper>
               <SubmitButton type="submit">
                 {translations[language].submit}
@@ -251,7 +261,6 @@ const BookNow = () => {
 
 const BookNowSection = styled.section`
   padding: 4rem 2rem;
-  background-color: #f9f9f9;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -278,7 +287,7 @@ const Container = styled.div`
 
 const LeftColumn = styled.div`
   flex: 1;
-  min-width: 300px;
+  min-width: 200px;
 
   @media (max-width: 768px) {
     text-align: center;
@@ -288,12 +297,17 @@ const LeftColumn = styled.div`
 const RightColumn = styled.div`
   flex: 1;
   min-width: 300px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const Title = styled.h2`
   font-size: 2.5rem;
   margin-bottom: 1rem;
   color: #1a513a;
+  font-family: "Roboto", sans-serif;
 
   @media (max-width: 768px) {
     font-size: 2rem;
@@ -304,6 +318,7 @@ const Description = styled.p`
   font-size: 1rem;
   margin-bottom: 2rem;
   color: #717171;
+  font-family: "Roboto", sans-serif;
 `;
 
 const Form = styled.form`
@@ -312,28 +327,29 @@ const Form = styled.form`
   gap: 1rem;
 `;
 
-const InputWrapper = styled.div`
+const FormRow = styled.div`
   display: flex;
-  flex-direction: column;
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
-const Label = styled.label`
-  color: #5e5e5e;
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
+const InputWrapper = styled.div<{ fullWidth?: boolean }>`
+  flex: ${({ fullWidth }) => (fullWidth ? "1 1 100%" : "1")};
 `;
 
 const Input = styled.input`
   padding: 0.75rem;
   font-size: 1rem;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  font-family: "Roboto", sans-serif;
   transition: all 0.3s ease;
 
   &:focus {
     border-color: #1a513a;
-    box-shadow: 0 0 5px rgba(26, 81, 58, 0.3);
     outline: none;
   }
 
@@ -347,14 +363,33 @@ const StyledDatePicker = styled(DatePicker)`
   padding: 0.75rem;
   font-size: 1rem;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
+  font-family: "Roboto", sans-serif;
   transition: all 0.3s ease;
 
   &:focus {
     border-color: #1a513a;
-    box-shadow: 0 0 5px rgba(26, 81, 58, 0.3);
+    outline: none;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.875rem;
+    padding: 0.625rem;
+  }
+`;
+
+const Textarea = styled.textarea`
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  width: 100%;
+  font-family: "Roboto", sans-serif;
+  transition: all 0.3s ease;
+  resize: vertical;
+  min-height: 100px;
+
+  &:focus {
+    border-color: #1a513a;
     outline: none;
   }
 
@@ -379,12 +414,9 @@ const SubmitButton = styled.button`
   border: none;
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
-  font-weight: bold;
-  text-transform: uppercase;
+  font-family: "Roboto", sans-serif;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   &:hover {
     background-color: #16432a;
@@ -393,7 +425,6 @@ const SubmitButton = styled.button`
   &:focus {
     background-color: #16432a;
     outline: none;
-    box-shadow: 0 0 5px rgba(26, 81, 58, 0.3);
   }
 
   @media (max-width: 768px) {
@@ -418,11 +449,10 @@ const ModalOverlay = styled.div`
 const ModalContent = styled.div`
   background: white;
   padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   text-align: center;
   max-width: 500px;
   width: 90%;
+  font-family: "Roboto", sans-serif;
 `;
 
 const ModalTitle = styled.h2`
@@ -443,12 +473,9 @@ const CloseButton = styled.button`
   border: none;
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
-  font-weight: bold;
-  text-transform: uppercase;
+  font-family: "Roboto", sans-serif;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   &:hover {
     background-color: #16432a;
@@ -457,7 +484,6 @@ const CloseButton = styled.button`
   &:focus {
     background-color: #16432a;
     outline: none;
-    box-shadow: 0 0 5px rgba(26, 81, 58, 0.3);
   }
 `;
 
