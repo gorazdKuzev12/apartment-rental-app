@@ -1,4 +1,5 @@
 "use client";
+// src/components/book/index.tsx or any other component
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import DatePicker from "react-datepicker";
@@ -7,22 +8,7 @@ import { collection, addDoc, getDocs } from "firebase/firestore";
 import { db } from "../.././../firebase"; // Adjust the path as needed
 import { useLanguage } from "@/context/LanguageContext"; // Import the useLanguage hook
 
-const translations: {
-  [key: string]: {
-    title: string;
-    description: string;
-    name: string;
-    email: string;
-    phone: string;
-    checkIn: string;
-    checkOut: string;
-    question: string;
-    submit: string;
-    successTitle: string;
-    successMessage: string;
-    close: string;
-  };
-} = {
+const translations: { [key: string]: { [key: string]: string } } = {
   SR: {
     title: "Rezervišite danas",
     description: "Kontaktirajte naš tim za više informacija.",
@@ -140,6 +126,26 @@ const BookNow = () => {
         checkIn: startDate,
         checkOut: endDate,
       });
+
+      // Send booking notification email
+      const response = await fetch("/api/send-booking-notification", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          checkIn: startDate,
+          checkOut: endDate,
+          question: formData.question,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send booking notification email");
+      }
+
       setShowModal(true);
       setFormData({
         name: "",
