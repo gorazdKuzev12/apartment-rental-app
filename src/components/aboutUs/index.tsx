@@ -1,5 +1,3 @@
-// src/components/AboutUs.tsx
-
 "use client";
 
 import styled from "styled-components";
@@ -50,42 +48,42 @@ const translations: {
   },
   EN: {
     tagline: "Luxury Apartments",
-    title: "NoCo Life in the Heart of Greeley",
+    title: "Smaragdis: A Natural Oasis in the Heart of Fruška Gora",
     description: `
       Villa Smaragdis is located in the heart of Fruška Gora, just 23 km from Novi Sad. This brand new and fully equipped villa can accommodate 8 people. We offer organization of various celebrations, seminars, and team-building events. The villa has a 10x5 meter pool with a heat pump and sea salt, a beach with loungers and umbrellas, a Finnish sauna, and a children's playground. The villa has three bedrooms, two bathrooms. All rooms offer a view of the beautiful Fruška Gora mountain. Additionally, the villa has private parking for 5 cars.
     `,
     button: "Get Location",
     amenities: [
-      "Microwave",
-      "Air Conditioning",
       "3 Bedrooms",
+      "2 Bathrooms",
       "Pool",
       "Sauna",
-      "2 Bathrooms",
       "WiFi",
       "Parking",
+      "2 Air Conditioners",
+      "4 TVs",
       "Pet Friendly",
-      "TV",
+      "Microwave",
     ],
   },
   DE: {
     tagline: "Luxuswohnungen",
-    title: "NoCo Leben im Herzen von Greeley",
+    title: "Smaragdis: Eine natürliche Oase im Herzen von Fruška Gora",
     description: `
       Die Villa Smaragdis befindet sich im Herzen von Fruška Gora, nur 23 km von Novi Sad entfernt. Diese brandneue und voll ausgestattete Villa bietet Platz für 8 Personen. Wir bieten die Organisation verschiedener Feierlichkeiten, Seminare und Team-Building-Veranstaltungen an. Die Villa verfügt über einen 10x5 Meter großen Pool mit Wärmepumpe und Meersalz, einen Strand mit Liegestühlen und Sonnenschirmen, eine finnische Sauna und einen Kinderspielplatz. Die Villa hat drei Schlafzimmer und zwei Badezimmer. Alle Zimmer bieten Blick auf den schönen Berg Fruška Gora. Darüber hinaus verfügt die Villa über einen privaten Parkplatz für 5 Autos.
     `,
     button: "Standort finden",
     amenities: [
-      "Mikrowelle",
-      "Klimaanlage",
       "3 Schlafzimmer",
+      "2 Badezimmer",
       "Pool",
       "Sauna",
-      "2 Badezimmer",
       "WiFi",
       "Parkplatz",
+      "2 Klimaanlagen",
+      "4 Fernseher",
       "Haustierfreundlich",
-      "TV",
+      "Mikrowelle",
     ],
   },
 };
@@ -133,16 +131,16 @@ const AboutUs = () => {
 };
 
 const amenityIcons = [
-  faUtensils,
-  faSnowflake,
-  faBed,
-  faSwimmingPool,
-  faHotTub,
-  faBath,
-  faWifi,
-  faParking,
-  faPaw,
-  faTv,
+  faBed, // 3 Spavaće sobe / 3 Bedrooms / 3 Schlafzimmer
+  faBath, // 2 Kupatila / 2 Bathrooms / 2 Badezimmer
+  faSwimmingPool, // Bazen / Pool / Pool
+  faHotTub, // Sauna / Sauna / Sauna
+  faWifi, // WiFi / WiFi / WiFi
+  faParking, // Parking / Parking / Parkplatz
+  faSnowflake, // 2 Klime / 2 Air Conditioners / 2 Klimaanlagen
+  faTv, // 4 TV-a / 4 TVs / 4 Fernseher
+  faPaw, // Pet Friendly / Pet Friendly / Haustierfreundlich
+  faUtensils, // Mikrotalasna / Microwave / Mikrowelle
 ];
 
 const AboutSection = styled.section`
