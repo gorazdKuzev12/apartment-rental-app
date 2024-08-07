@@ -12,7 +12,6 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: 'Montserrat', sans-serif;
-    background-color: #f9f9f9;
     color: #333;
     line-height: 1.6;
   }

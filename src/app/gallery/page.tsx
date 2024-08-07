@@ -201,8 +201,6 @@ const TitleSection = styled.section`
   justify-content: center;
   align-items: center;
   height: 20vh;
-  background-color: #f9f9f9;
-
   @media (max-width: 768px) {
     height: 15vh;
   }
@@ -227,7 +225,6 @@ const Title = styled.h1`
 
 const GallerySection = styled.section`
   padding: 2rem;
-  background-color: #f9f9f9;
 
   @media (max-width: 768px) {
     padding: 1rem;

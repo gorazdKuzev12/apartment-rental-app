@@ -86,7 +86,6 @@ const GallerySection = styled.section`
   justify-content: center;
   height: 100vh; // Full viewport height
   padding: 2rem;
-  background-color: #f9f9f9;
 
   @media (max-width: 768px) {
     padding: 1rem;

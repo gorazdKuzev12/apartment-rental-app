@@ -4,7 +4,19 @@
 
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMapMarkerAlt,
+  faSnowflake,
+  faBed,
+  faUtensils,
+  faSwimmingPool,
+  faHotTub,
+  faBath,
+  faWifi,
+  faParking,
+  faPaw,
+  faTv,
+} from "@fortawesome/free-solid-svg-icons"; // Import the necessary icons
 import { useLanguage } from "@/context/LanguageContext"; // Import the useLanguage hook
 
 const translations: {
@@ -13,43 +25,68 @@ const translations: {
     title: string;
     description: string;
     button: string;
+    amenities: string[];
   };
 } = {
   SR: {
-    tagline: "Luksuzni Apartmani",
-    title: "NoCo život u srcu Greeley-a",
+    title: "Smaragdis: Prirodna oaza u srcu Fruške gore",
     description: `
-      U srcu Greeley-a, Cilla Smaragdis nudi luksuzan život i novodizajnirane apartmane
-      na pešačkoj udaljenosti od mnogih prodavnica, restorana i škola. Ako ste tražili
-      ravnotežu između neverovatnih pogodnosti i vrhunskih završnih obrada na centralnoj
-      lokaciji - vaša potraga je gotova. Tiho smešteni, a opet blizu svih modernih pogodnosti,
-      vidite zašto je Cilla Smaragdis savršeno mesto za vaš dom.
+      Vila Smaragdis se nalazi u srcu Fruške gore, na samo 23 km od Novog Sada. Ova potpuno nova i kompletno opremljena vila može da primi 8 osoba. Pružamo organizaciju različitih proslava, seminara i team building događaja. Vila ima bazen dimenzija 10x5 metara sa toplotnom pumpom i slanom vodom, plažu sa ležaljkama i suncobranima, finsku saunu i igralište za decu. U vili se nalaze tri spavaće sobe, dva kupatila. Sve sobe nude pogled na predivnu planinu Frušku goru. Takođe, vila poseduje privatni parking namenjen za 5 automobila.
     `,
     button: "Pronađi lokaciju",
+    amenities: [
+      "3 Spavaće sobe",
+      "2 Kupatila",
+      "Bazen",
+      "Sauna",
+      "WiFi",
+      "Parking",
+      "2 Klime",
+      "4 TV-a",
+      "Pet Friendly",
+      "Mikrotalasna",
+    ],
+    tagline: "",
   },
   EN: {
     tagline: "Luxury Apartments",
     title: "NoCo Life in the Heart of Greeley",
     description: `
-      In the heart of Greeley, Cilla Smaragdis offers deluxe living and newly designed apartments
-      within walking distance to countless shops, restaurants, and schools. If you've been searching
-      for a balance between amazing amenities and high-end finishes in a central location - your search
-      is over. Quietly tucked away, yet close to all of life's modern conveniences, see why Cilla Smaragdis
-      is the perfect place to call home.
+      Villa Smaragdis is located in the heart of Fruška Gora, just 23 km from Novi Sad. This brand new and fully equipped villa can accommodate 8 people. We offer organization of various celebrations, seminars, and team-building events. The villa has a 10x5 meter pool with a heat pump and sea salt, a beach with loungers and umbrellas, a Finnish sauna, and a children's playground. The villa has three bedrooms, two bathrooms. All rooms offer a view of the beautiful Fruška Gora mountain. Additionally, the villa has private parking for 5 cars.
     `,
     button: "Get Location",
+    amenities: [
+      "Microwave",
+      "Air Conditioning",
+      "3 Bedrooms",
+      "Pool",
+      "Sauna",
+      "2 Bathrooms",
+      "WiFi",
+      "Parking",
+      "Pet Friendly",
+      "TV",
+    ],
   },
   DE: {
     tagline: "Luxuswohnungen",
     title: "NoCo Leben im Herzen von Greeley",
     description: `
-      Im Herzen von Greeley bietet Cilla Smaragdis luxuriöses Wohnen und neu gestaltete Wohnungen,
-      die sich in Gehweite zu unzähligen Geschäften, Restaurants und Schulen befinden. Wenn Sie nach
-      einer Balance zwischen erstaunlichen Annehmlichkeiten und hochwertigen Ausstattungen in zentraler
-      Lage gesucht haben - Ihre Suche ist vorbei. Ruhig gelegen, aber dennoch in der Nähe aller modernen
-      Annehmlichkeiten, sehen Sie, warum Cilla Smaragdis der perfekte Ort ist, um zu Hause zu sein.
+      Die Villa Smaragdis befindet sich im Herzen von Fruška Gora, nur 23 km von Novi Sad entfernt. Diese brandneue und voll ausgestattete Villa bietet Platz für 8 Personen. Wir bieten die Organisation verschiedener Feierlichkeiten, Seminare und Team-Building-Veranstaltungen an. Die Villa verfügt über einen 10x5 Meter großen Pool mit Wärmepumpe und Meersalz, einen Strand mit Liegestühlen und Sonnenschirmen, eine finnische Sauna und einen Kinderspielplatz. Die Villa hat drei Schlafzimmer und zwei Badezimmer. Alle Zimmer bieten Blick auf den schönen Berg Fruška Gora. Darüber hinaus verfügt die Villa über einen privaten Parkplatz für 5 Autos.
     `,
     button: "Standort finden",
+    amenities: [
+      "Mikrowelle",
+      "Klimaanlage",
+      "3 Schlafzimmer",
+      "Pool",
+      "Sauna",
+      "2 Badezimmer",
+      "WiFi",
+      "Parkplatz",
+      "Haustierfreundlich",
+      "TV",
+    ],
   },
 };
 
@@ -57,7 +94,7 @@ const AboutUs = () => {
   const { language } = useLanguage(); // Get the current language from the context
 
   const handleGetDirections = () => {
-    const address = "1600 Amphitheatre Parkway, Mountain View, CA"; // Change to your desired address
+    const address = "Kaludjerica 52, Čerević 21311, Serbia"; // Change to your desired address
     const mapsUrl = `https://www.google.com/maps?q=${encodeURIComponent(
       address
     )}`;
@@ -81,17 +118,40 @@ const AboutUs = () => {
           </ViewButton>
         </RightColumn>
       </Container>
+      <AmenitiesSection>
+        <AmenitiesContainer>
+          {translations[language].amenities.map((amenity, index) => (
+            <Amenity key={index}>
+              <FontAwesomeIcon icon={amenityIcons[index]} />
+              &nbsp;{amenity}
+            </Amenity>
+          ))}
+        </AmenitiesContainer>
+      </AmenitiesSection>
     </AboutSection>
   );
 };
 
+const amenityIcons = [
+  faUtensils,
+  faSnowflake,
+  faBed,
+  faSwimmingPool,
+  faHotTub,
+  faBath,
+  faWifi,
+  faParking,
+  faPaw,
+  faTv,
+];
+
 const AboutSection = styled.section`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh;
   padding: 0 2rem;
-  background-color: #f9f9f9;
 
   @media (max-width: 768px) {
     padding: 1rem;
@@ -179,6 +239,7 @@ const Description = styled.p`
   font-size: 1.4rem;
   line-height: 1.6;
   margin-bottom: 2rem;
+  margin-top: 5rem;
   color: #717171;
 
   @media (max-width: 768px) {
@@ -207,6 +268,38 @@ const ViewButton = styled.button`
   @media (max-width: 768px) {
     padding: 0.5rem 1rem;
     font-size: 0.875rem;
+  }
+`;
+
+const AmenitiesSection = styled.section`
+  width: 100%;
+  background-color: #e0e0e0;
+  padding: 2rem 0;
+  margin-top: 5rem;
+`;
+
+const AmenitiesContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  gap: 2rem;
+`;
+
+const Amenity = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  color: #1a513a;
+  width: calc(20% - 2rem); /* Adjust for padding */
+  justify-content: center;
+  text-align: center;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: flex-start;
+    text-align: left;
   }
 `;
 
