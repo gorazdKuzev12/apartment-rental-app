@@ -41,30 +41,29 @@ const Gallery = () => {
       viewGallery: "Vollständige Galerie ansehen",
     },
   };
-
   return (
     <GallerySection>
       <ImageGrid>
         <ImageWrapper>
-          <Image src="/image1.jpg" alt="1-BEDROOM PHASE I" />
+          <Image src="/image1.jpg" alt="Comfortable Stay" />
           <Overlay>
             <OverlayText>{translations[language].overlayTexts[0]}</OverlayText>
           </Overlay>
         </ImageWrapper>
         <ImageWrapper>
-          <Image src="/image4.jpg" alt="1-BEDROOM PHASE II" />
+          <Image src="/image4.jpg" alt="Luxury Room" />
           <Overlay>
             <OverlayText>{translations[language].overlayTexts[1]}</OverlayText>
           </Overlay>
         </ImageWrapper>
         <ImageWrapper>
-          <Image src="/image5.jpg" alt="2-BEDROOM PHASE I" />
+          <Image src="/image5.jpg" alt="Beautiful Nature" />
           <Overlay>
             <OverlayText>{translations[language].overlayTexts[2]}</OverlayText>
           </Overlay>
         </ImageWrapper>
         <ImageWrapper>
-          <Image src="/image8.jpg" alt="2-BEDROOM PHASE II" />
+          <Image src="/image8.jpg" alt="Modern Design" />
           <Overlay>
             <OverlayText>{translations[language].overlayTexts[3]}</OverlayText>
           </Overlay>
@@ -84,12 +83,10 @@ const GallerySection = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh; // Full viewport height
-  padding: 2rem;
+  padding: 2rem 1rem;
 
   @media (max-width: 768px) {
     padding: 1rem;
-    height: auto;
   }
 `;
 
@@ -97,7 +94,7 @@ const ImageGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
-  height: 75%; // Full height for the grid
+  width: 100%;
 
   @media (min-width: 768px) {
     grid-template-columns: repeat(4, 1fr);
@@ -111,11 +108,12 @@ const ImageGrid = styled.div`
 
 const ImageWrapper = styled.div`
   position: relative;
+  width: 100%;
+  padding-top: 75%; /* 4:3 Aspect Ratio */
   overflow: hidden;
-  height: 100%; // Full height for the wrapper
 
   @media (max-width: 768px) {
-    height: auto;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
   }
 
   &:hover img {
@@ -124,14 +122,13 @@ const ImageWrapper = styled.div`
 `;
 
 const Image = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover; // Ensures image covers the container
   transition: transform 0.3s ease;
-
-  @media (max-width: 768px) {
-    height: auto;
-  }
 `;
 
 const Overlay = styled.div`
@@ -168,8 +165,8 @@ const ButtonWrapper = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
+  margin-top: 2rem;
   position: relative;
-  margin-top: 3rem;
 
   &::before,
   &::after {
@@ -188,7 +185,6 @@ const ButtonWrapper = styled.div`
   }
 
   @media (max-width: 768px) {
-    margin-top: 2rem;
     &::before,
     &::after {
       height: 1px;
@@ -200,7 +196,7 @@ const ViewButton = styled.button`
   background-color: transparent;
   color: #1a513a;
   border: 2px solid #1a513a;
-  padding: 1.3rem 1.8rem;
+  padding: 1rem 1.5rem;
   font-size: 1rem;
   font-weight: bold;
   text-transform: uppercase;
@@ -213,7 +209,7 @@ const ViewButton = styled.button`
   }
 
   @media (max-width: 768px) {
-    padding: 1rem 1.5rem;
+    padding: 0.75rem 1rem;
     font-size: 0.875rem;
   }
 `;
