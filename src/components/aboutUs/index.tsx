@@ -103,7 +103,7 @@ const AboutUs = () => {
     <AboutSection id="about-us">
       <Container>
         <LeftColumn>
-          <Logo src="/logo.png" alt="Cilla Smaragdis Logo" />
+          <Logo src="/logo.png" alt="Villa Smaragdis Logo" />
           <Tagline>{translations[language].tagline}</Tagline>
           <Title>{translations[language].title}</Title>
           <Separator />
@@ -237,7 +237,6 @@ const Description = styled.p`
   font-size: 1.4rem;
   line-height: 1.6;
   margin-bottom: 2rem;
-  margin-top: 5rem;
   color: #717171;
 
   @media (max-width: 768px) {
@@ -257,6 +256,8 @@ const ViewButton = styled.button`
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
+  justify-content: center; /* Center the button */
+  margin: 0 auto; /* Center the button horizontally on mobile */
 
   &:hover {
     background-color: #1a513a;
@@ -266,6 +267,7 @@ const ViewButton = styled.button`
   @media (max-width: 768px) {
     padding: 0.5rem 1rem;
     font-size: 0.875rem;
+    display: block; /* Ensure it is block element */
   }
 `;
 
@@ -283,6 +285,10 @@ const AmenitiesContainer = styled.div`
   max-width: 1400px;
   margin: 0 auto;
   gap: 2rem;
+
+  @media (max-width: 768px) {
+    gap: 1rem;
+  }
 `;
 
 const Amenity = styled.div`
@@ -295,7 +301,7 @@ const Amenity = styled.div`
   text-align: center;
 
   @media (max-width: 768px) {
-    width: 100%;
+    width: calc(50% - 1rem); /* Two in a row on mobile */
     justify-content: flex-start;
     text-align: left;
   }
