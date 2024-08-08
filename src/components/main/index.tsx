@@ -30,7 +30,6 @@ const translations: {
     book: "Buchen Sie das Apartment",
   },
 };
-
 const Main = () => {
   const { language } = useLanguage();
   const [isMobile, setIsMobile] = useState(false);
@@ -56,10 +55,17 @@ const Main = () => {
         </Content>
       </Overlay>
       {isMobile ? (
-        <ImageBackground src="/image1.jpg" alt="Background" />
+        <ImageBackground
+          src="https://res.cloudinary.com/dw9cab9ab/image/upload/v1659171147/sickfits/62e4f14a8cb49a4da431b57d.webp"
+          alt="Background"
+          loading="lazy"
+        />
       ) : (
-        <VideoBackground autoPlay loop muted playsInline>
-          <source src="/video.mp4" type="video/mp4" />
+        <VideoBackground autoPlay loop muted playsInline preload="auto">
+          <source
+            src="https://res.cloudinary.com/dw9cab9ab/video/upload/v1723104762/video_fvsvvx.mp4"
+            type="video/mp4"
+          />
           Your browser does not support the video tag.
         </VideoBackground>
       )}
