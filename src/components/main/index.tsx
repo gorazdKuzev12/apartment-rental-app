@@ -45,6 +45,17 @@ const Main = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    const videoElement = document.querySelector("video");
+    if (videoElement) {
+      videoElement.muted = true; // Ensure the video is muted
+      videoElement.setAttribute("playsinline", "true"); // Ensure playsInline is set
+      videoElement.play().catch((error) => {
+        console.error("Video play failed:", error);
+      });
+    }
+  }, []);
+
   return (
     <HeroSection>
       <Overlay>
