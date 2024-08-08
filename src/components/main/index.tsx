@@ -66,7 +66,14 @@ const Main = () => {
         </Content>
       </Overlay>
 
-      <VideoBackground autoPlay loop muted playsInline preload="auto">
+      <VideoBackground
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        controls={false}
+      >
         <source
           src="https://res.cloudinary.com/dw9cab9ab/video/upload/v1723104762/video_fvsvvx.mp4"
           type="video/mp4"
@@ -178,6 +185,7 @@ const VideoBackground = styled.video`
   height: 100%;
   object-fit: cover;
   z-index: 0;
+  pointer-events: none; /* Prevent user interactions with the video */
 `;
 
 const ImageBackground = styled.img`
