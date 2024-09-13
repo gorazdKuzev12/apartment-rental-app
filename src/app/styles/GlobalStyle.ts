@@ -11,7 +11,6 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: 'Montserrat', sans-serif;
     color: #333;
     line-height: 1.6;
   }

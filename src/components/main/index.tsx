@@ -1,8 +1,8 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useLanguage } from "@/context/LanguageContext";
+import { useRouter } from "next/navigation"; // Import useRouter
 
 const translations: {
   [key: string]: {
@@ -30,9 +30,11 @@ const translations: {
     book: "Buchen Sie das Apartment",
   },
 };
+
 const Main = () => {
   const { language } = useLanguage();
   const [isMobile, setIsMobile] = useState(false);
+  const router = useRouter(); // Get the router object
 
   useEffect(() => {
     const handleResize = () => {
@@ -56,13 +58,24 @@ const Main = () => {
     }
   }, []);
 
+  // Function to handle the button click and scroll to the book-room section
+  const handleBookClick = () => {
+    const bookRoomSection = document.getElementById("book-room"); // Get the section by its ID
+    if (bookRoomSection) {
+      bookRoomSection.scrollIntoView({ behavior: "smooth" }); // Smooth scroll to the section
+    }
+  };
+
   return (
     <HeroSection>
       <Overlay>
         <Content>
           <Title>{translations[language].title}</Title>
           <Subtitle>{translations[language].subtitle}</Subtitle>
-          <BookButton>{translations[language].book}</BookButton>
+          <BookButton onClick={handleBookClick}>
+            {/* Attach the click handler */}
+            {translations[language].book}
+          </BookButton>
         </Content>
       </Overlay>
 

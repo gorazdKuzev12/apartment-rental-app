@@ -144,7 +144,6 @@ const Overlay = styled.div`
   opacity: 0;
   transition: opacity 0.3s ease;
   text-transform: uppercase;
-  font-family: "Arial", sans-serif; /* Change this to your desired font */
 
   ${ImageWrapper}:hover & {
     opacity: 1;
