@@ -317,9 +317,7 @@ const AmenityCard = styled.div`
     width: calc(50% - 1rem); /* Two per row on mobile */
   }
 
-  @media (max-width: 480px) {
-    width: 100%; /* Full width for very small screens */
-  }
+ 
 `;
 
 const IconWrapper = styled.div`
