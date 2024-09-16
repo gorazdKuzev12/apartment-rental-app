@@ -48,37 +48,36 @@ const Gallery = () => {
   // Different albums for each section
   const albums = {
     exterior: [
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/ynbrmyc8q8p4xbxw1g9c.jpg", alt: "Exterior 2" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/ynbrmyc8q8p4xbxw1g9c.jpg", alt: "Exterior 1" },
 
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/g6xto0ihphpdnnei5wro.jpg", alt: "Exterior 5" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/g6xto0ihphpdnnei5wro.jpg", alt: "Exterior 2" },
 
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/rtyrosfavnuau4oshoc9.jpg", alt: "Exterior 1" },
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/ri0ovj6z2hz2hjp1pwqv.jpg", alt: "Exterior 3" },
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/x09bx0iwzqn8kcalzduf.jpg", alt: "Exterior 4" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/rtyrosfavnuau4oshoc9.jpg", alt: "Exterior 3" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/ri0ovj6z2hz2hjp1pwqv.jpg", alt: "Exterior 4" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/x09bx0iwzqn8kcalzduf.jpg", alt: "Exterior 5" },
       { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/sz4zeturu6epfnjeimyj.jpg", alt: "Exterior 6" }
     ],
     interior: [
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6695_rosge8.jpg", alt: "Interior 7" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6695_rosge8.jpg", alt: "Interior 1" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6700_adg7qh.jpg", alt: "Interior 2" },
 
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6700_adg7qh.jpg", alt: "Interior 5" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6716_zrhnzb.jpg", alt: "Interior 3" },
 
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6716_zrhnzb.jpg", alt: "Interior 4" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6717_za4r1a.jpg", alt: "Interior 4" },
 
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6717_za4r1a.jpg", alt: "Interior 3" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6701_kacigj.jpg", alt: "Interior 5" },
 
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6701_kacigj.jpg", alt: "Interior 2" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6697_lxg2yv.jpg", alt: "Interior 6" },
 
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6697_lxg2yv.jpg", alt: "Interior 1" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6693_xzalps.jpg", alt: "Interior 7" },
 
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6693_xzalps.jpg", alt: "Interior 9" },
-
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6698_jdi0re.jpg", alt: "Interior 6" },
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6694_euwmsb.jpg", alt: "Interior 8" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6698_jdi0re.jpg", alt: "Interior 8" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6694_euwmsb.jpg", alt: "Interior *" },
     ],
     events: [
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6712_qdkbfv.jpg", alt: "Proslave 2" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6712_qdkbfv.jpg", alt: "Proslave 1" },
 
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6710_j66xie.jpg", alt: "Proslave 1" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6710_j66xie.jpg", alt: "Proslave 2" },
       { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6706_rvkmor.jpg", alt: "Proslave 3" },
       { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6707_w0lxk5.jpg", alt: "Proslave 4" }
     ],
