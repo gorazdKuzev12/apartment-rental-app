@@ -12,10 +12,10 @@ const translations: {
   };
 } = {
   SR: {
-    title: "Spoj prirode i konfora",
+    title: "Spoj prirode i komfora",
     subtitle:
       "Vila Smaragdis pruža vrhunski konfor, luksuz i mir. Idealna za ljubitelje prirode i sve koji traže kvalitetan odmor.",
-    book: "Rezervišite apartman",
+    book: "Pitajte o apartmanu",
   },
   EN: {
     title: "Blend of Nature and Comfort",
@@ -86,6 +86,9 @@ const Main = () => {
         playsInline
         preload="auto"
         controls={false}
+        poster="https://res.cloudinary.com/dw9cab9ab/image/upload/v1723104762/videoimage_nj1lvw.jpg"
+
+
       >
         <source
           src="https://res.cloudinary.com/dw9cab9ab/video/upload/v1723104762/video_fvsvvx.mp4"
@@ -159,9 +162,10 @@ font-family:"Montserrat";
 const BookButton = styled.button`
   background-color: white;
   color: #16432a;
+  letter-spacing: 2px;
   border: none;
   padding: 1rem 2rem;
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: bold;
   cursor: pointer;
   font-family: "Montserrat";
