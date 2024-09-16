@@ -117,15 +117,17 @@ const AboutUs = () => {
         </RightColumn>
       </Container>
       <AmenitiesSection>
-        <AmenitiesContainer>
-          {translations[language].amenities.map((amenity, index) => (
-            <Amenity key={index}>
+      <AmenitiesContainer>
+        {translations[language].amenities.map((amenity, index) => (
+          <AmenityCard key={index}>
+            <IconWrapper>
               <FontAwesomeIcon icon={amenityIcons[index]} />
-              &nbsp;{amenity}
-            </Amenity>
-          ))}
-        </AmenitiesContainer>
-      </AmenitiesSection>
+            </IconWrapper>
+            <AmenityText>{amenity}</AmenityText>
+          </AmenityCard>
+        ))}
+      </AmenitiesContainer>
+    </AmenitiesSection>
     </AboutSection>
   );
 };
@@ -149,7 +151,7 @@ const AboutSection = styled.section`
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: 0 2rem;
+  padding: 8rem 2rem;
 
   @media (max-width: 768px) {
     padding: 1rem;
@@ -273,38 +275,63 @@ const ViewButton = styled.button`
 
 const AmenitiesSection = styled.section`
   width: 100%;
-  background-color: #e0e0e0;
-  padding: 2rem 0;
-  margin-top: 5rem;
+  padding: 2rem 1rem;
+  margin-top: 2rem;
+
 `;
 
 const AmenitiesContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  max-width: 1400px;
-  margin: 0 auto;
   gap: 2rem;
+  max-width: 100%;
+  margin: 0 auto;
+  border-top: 2px solid #ccc;
+  padding-top: 8rem;
 
   @media (max-width: 768px) {
     gap: 1rem;
   }
 `;
 
-const Amenity = styled.div`
+const AmenityCard = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  font-size: 1.2rem;
-  color: #1a513a;
-  width: calc(20% - 2rem); /* Adjust for padding */
-  justify-content: center;
-  text-align: center;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
+  width: calc(22% - 5rem); /* Four per row on larger screens */
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-10px);
+  }
+
+  @media (max-width: 1024px) {
+    width: calc(33.33% - 1.5rem); /* Three per row on medium screens */
+  }
 
   @media (max-width: 768px) {
-    width: calc(50% - 1rem); /* Two in a row on mobile */
-    justify-content: flex-start;
-    text-align: left;
+    width: calc(50% - 1rem); /* Two per row on mobile */
   }
+
+  @media (max-width: 480px) {
+    width: 100%; /* Full width for very small screens */
+  }
+`;
+
+const IconWrapper = styled.div`
+  font-size: 2rem;
+  color: #1a513a;
+  margin-bottom: 1rem;
+`;
+
+const AmenityText = styled.p`
+  font-size: 1.2rem;
+  color: #1a513a;
+  text-align: center;
 `;
 
 export default AboutUs;

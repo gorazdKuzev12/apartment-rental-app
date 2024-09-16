@@ -324,7 +324,6 @@ const Title = styled.h2`
   font-size: 2.5rem;
   margin-bottom: 1rem;
   color: #1a513a;
-  font-family: "Roboto", sans-serif;
 
   @media (max-width: 768px) {
     font-size: 2rem;
@@ -335,7 +334,6 @@ const Description = styled.p`
   font-size: 1rem;
   margin-bottom: 2rem;
   color: #717171;
-  font-family: "Roboto", sans-serif;
 `;
 
 const Form = styled.form`
@@ -362,7 +360,6 @@ const Input = styled.input`
   font-size: 1rem;
   border: 1px solid #ccc;
   width: 100%;
-  font-family: "Roboto", sans-serif;
   transition: all 0.3s ease;
 
   &:focus {
@@ -381,7 +378,6 @@ const StyledDatePicker = styled(DatePicker)`
   font-size: 1rem;
   border: 1px solid #ccc;
   width: 100%;
-  font-family: "Roboto", sans-serif;
   transition: all 0.3s ease;
 
   &:focus {
@@ -400,7 +396,6 @@ const Textarea = styled.textarea`
   font-size: 1rem;
   border: 1px solid #ccc;
   width: 100%;
-  font-family: "Roboto", sans-serif;
   transition: all 0.3s ease;
   resize: vertical;
   min-height: 100px;
@@ -431,7 +426,6 @@ const SubmitButton = styled.button`
   border: none;
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
-  font-family: "Roboto", sans-serif;
   cursor: pointer;
   transition: background-color 0.3s ease;
 
@@ -469,7 +463,6 @@ const ModalContent = styled.div`
   text-align: center;
   max-width: 500px;
   width: 90%;
-  font-family: "Roboto", sans-serif;
 `;
 
 const ModalTitle = styled.h2`
@@ -490,7 +483,6 @@ const CloseButton = styled.button`
   border: none;
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
-  font-family: "Roboto", sans-serif;
   cursor: pointer;
   transition: background-color 0.3s ease;
 

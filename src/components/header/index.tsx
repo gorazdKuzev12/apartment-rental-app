@@ -34,19 +34,43 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false); // State to manage menu visibility
   const { language, setLanguage } = useLanguage(); // Use the LanguageContext
   const router = useRouter();
-
+  const throttle = (func: { (): void; apply?: any; }, limit: number) => {
+    let lastFunc: string | number | NodeJS.Timeout | undefined;
+    let lastRan: number;
+    return function (this: any, ...args: any[]) {
+      if (!lastRan) {
+        func.apply(this, args);
+        lastRan = Date.now();
+      } else {
+        clearTimeout(lastFunc);
+        lastFunc = setTimeout(() => {
+          if (Date.now() - lastRan >= limit) {
+            func.apply(this, args);
+            lastRan = Date.now();
+          }
+        }, limit - (Date.now() - lastRan));
+      }
+    };
+  };
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
+      // Add a buffer to prevent rapid toggling around the threshold
+      const threshold = 50;
+      const buffer = 10; // Add a buffer to make transitions smoother
+
+      if (window.scrollY > threshold + buffer && !scrolled) {
         setScrolled(true);
-      } else {
+      } else if (window.scrollY < threshold - buffer && scrolled) {
         setScrolled(false);
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    // Throttle the scroll event for performance
+    const throttledHandleScroll = throttle(handleScroll, 200);
+
+    window.addEventListener("scroll", throttledHandleScroll);
+    return () => window.removeEventListener("scroll", throttledHandleScroll);
+  }, [scrolled]);
 
   const handleNavigation = async (path: string, hash: string) => {
     await router.push(path);

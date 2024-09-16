@@ -1,12 +1,15 @@
-// src/components/Gallery.tsx
-
 "use client";
+import { useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import { useLanguage } from "@/context/LanguageContext"; // Import the useLanguage hook
+import { useLanguage } from "@/context/LanguageContext";
+import Album from "../album";
 
 const Gallery = () => {
   const { language } = useLanguage(); // Get the current language from the context
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null); // Track selected image index
+  const [selectedAlbum, setSelectedAlbum] = useState<number | null>(null); // Track selected album index
+
   const translations: {
     [key: string]: {
       overlayTexts: string[];
@@ -15,66 +18,130 @@ const Gallery = () => {
   } = {
     SR: {
       overlayTexts: [
-        "Udoban boravak",
-        "Luksuzna soba",
-        "Prekrasna priroda",
-        "Moderan dizajn",
+        "Eksterijer",  // Exterior
+        "Interijer",   // Interior
+        "Proslave",    // Events/Celebrations
+        "Opustanje",   // Relaxation
       ],
       viewGallery: "Pogledajte celu galeriju",
     },
     EN: {
       overlayTexts: [
-        "Comfortable Stay",
-        "Luxury Room",
-        "Beautiful Nature",
-        "Modern Design",
+        "Exterior",
+        "Interior",
+        "Events",
+        "Relaxation",
       ],
       viewGallery: "View Full Gallery",
     },
     DE: {
       overlayTexts: [
-        "Komfortabler Aufenthalt",
-        "Luxuszimmer",
-        "Schöne Natur",
-        "Modernes Design",
+        "Außenbereich",  // Exterior
+        "Innenbereich",  // Interior
+        "Feierlichkeiten", // Events/Celebrations
+        "Entspannung",    // Relaxation
       ],
       viewGallery: "Vollständige Galerie ansehen",
     },
   };
+
+  // Different albums for each section
+  const albums = {
+    exterior: [
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/ynbrmyc8q8p4xbxw1g9c.jpg", alt: "Exterior 2" },
+
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/g6xto0ihphpdnnei5wro.jpg", alt: "Exterior 5" },
+
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/rtyrosfavnuau4oshoc9.jpg", alt: "Exterior 1" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/ri0ovj6z2hz2hjp1pwqv.jpg", alt: "Exterior 3" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/x09bx0iwzqn8kcalzduf.jpg", alt: "Exterior 4" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/sz4zeturu6epfnjeimyj.jpg", alt: "Exterior 6" }
+    ],
+    interior: [
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6695_rosge8.jpg", alt: "Interior 7" },
+
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6700_adg7qh.jpg", alt: "Interior 5" },
+
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6716_zrhnzb.jpg", alt: "Interior 4" },
+
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6717_za4r1a.jpg", alt: "Interior 3" },
+
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6701_kacigj.jpg", alt: "Interior 2" },
+
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6697_lxg2yv.jpg", alt: "Interior 1" },
+
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6693_xzalps.jpg", alt: "Interior 9" },
+
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6698_jdi0re.jpg", alt: "Interior 6" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6694_euwmsb.jpg", alt: "Interior 8" },
+    ],
+    events: [
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6712_qdkbfv.jpg", alt: "Proslave 2" },
+
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6710_j66xie.jpg", alt: "Proslave 1" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6706_rvkmor.jpg", alt: "Proslave 3" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6707_w0lxk5.jpg", alt: "Proslave 4" }
+    ],
+    relaxation: [
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6704_ljtxp8.jpg", alt: "Relaxation 1" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6703_lxyhbi.jpg", alt: "Relaxation 2" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6705_ax4det.jpg", alt: "Relaxation 3" }
+    ],
+  };
+
+  const galleryImages = [
+    { src: albums.exterior[0].src, alt: "Exterior" },
+    { src: albums.interior[0].src, alt: "Interior" },
+    { src: albums.events[0].src, alt: "Events" },
+    { src: albums.relaxation[0].src, alt: "Relaxation" },
+  ];
+
+  const handleImageClick = (index: number) => {
+    setSelectedAlbum(index); // Set selected album based on the clicked image
+    setSelectedImageIndex(0); // Start with the first image of that album
+  };
+
+  const handleCloseAlbum = () => {
+    setSelectedImageIndex(null); // Close the album
+    setSelectedAlbum(null); // Reset the album
+  };
+
   return (
-    <GallerySection>
-      <ImageGrid>
-        <ImageWrapper>
-          <Image src="/image1.jpg" alt="Comfortable Stay" />
-          <Overlay>
-            <OverlayText>{translations[language].overlayTexts[0]}</OverlayText>
-          </Overlay>
-        </ImageWrapper>
-        <ImageWrapper>
-          <Image src="/image4.jpg" alt="Luxury Room" />
-          <Overlay>
-            <OverlayText>{translations[language].overlayTexts[1]}</OverlayText>
-          </Overlay>
-        </ImageWrapper>
-        <ImageWrapper>
-          <Image src="/image5.jpg" alt="Beautiful Nature" />
-          <Overlay>
-            <OverlayText>{translations[language].overlayTexts[2]}</OverlayText>
-          </Overlay>
-        </ImageWrapper>
-        <ImageWrapper>
-          <Image src="/image8.jpg" alt="Modern Design" />
-          <Overlay>
-            <OverlayText>{translations[language].overlayTexts[3]}</OverlayText>
-          </Overlay>
-        </ImageWrapper>
-      </ImageGrid>
-      <ButtonWrapper>
-        <Link href="/gallery" passHref>
-          <ViewButton>{translations[language].viewGallery}</ViewButton>
-        </Link>
-      </ButtonWrapper>
-    </GallerySection>
+    <>
+      <GallerySection>
+        <ImageGrid>
+          {galleryImages.map((image, index) => (
+            <ImageWrapper key={index} onClick={() => handleImageClick(index)}>
+              <Image src={image.src} alt={image.alt} />
+              <Overlay>
+                <OverlayText>{translations[language].overlayTexts[index]}</OverlayText>
+              </Overlay>
+            </ImageWrapper>
+          ))}
+        </ImageGrid>
+        <ButtonWrapper>
+          <Link href="/gallery" passHref>
+            <ViewButton>{translations[language].viewGallery}</ViewButton>
+          </Link>
+        </ButtonWrapper>
+      </GallerySection>
+
+      {selectedImageIndex !== null && selectedAlbum !== null && (
+        <Album
+          images={
+            selectedAlbum === 0
+              ? albums.exterior
+              : selectedAlbum === 1
+              ? albums.interior
+              : selectedAlbum === 2
+              ? albums.events
+              : albums.relaxation
+          }
+          currentIndex={selectedImageIndex}
+          onClose={handleCloseAlbum}
+        />
+      )}
+    </>
   );
 };
 
@@ -89,7 +156,6 @@ const GallerySection = styled.section`
     padding: 1rem;
   }
 `;
-
 const ImageGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -144,7 +210,6 @@ const Overlay = styled.div`
   opacity: 0;
   transition: opacity 0.3s ease;
   text-transform: uppercase;
-  font-family: "Arial", sans-serif; /* Change this to your desired font */
 
   ${ImageWrapper}:hover & {
     opacity: 1;
@@ -165,16 +230,12 @@ const ButtonWrapper = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  margin-top: 2rem;
+  margin-top: 4rem;
+  margin-bottom: 3rem;
+
   position: relative;
 
-  &::before,
-  &::after {
-    content: "";
-    flex: 1;
-    height: 2px;
-    background-color: #1a513a;
-  }
+ 
 
   &::before {
     margin-right: 1rem;
@@ -183,6 +244,7 @@ const ButtonWrapper = styled.div`
   &::after {
     margin-left: 1rem;
   }
+
 
   @media (max-width: 768px) {
     &::before,
