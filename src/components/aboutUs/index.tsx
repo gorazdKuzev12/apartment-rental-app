@@ -240,7 +240,7 @@ const Description = styled.p`
   line-height: 1.6;
   margin-bottom: 2rem;
   color: #717171;
-
+  font-family: 'Montserrat';
   @media (max-width: 768px) {
     font-size: 1.2rem;
   }
@@ -248,8 +248,9 @@ const Description = styled.p`
 
 const ViewButton = styled.button`
   background-color: transparent;
-  color: #1a513a;
-  border: 2px solid #1a513a;
+  color: white;
+  background-color: #1a513a;
+
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
   font-weight: bold;
@@ -257,19 +258,21 @@ const ViewButton = styled.button`
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
-  align-items: center;
-  justify-content: center; /* Center the button */
-  margin: 0 auto; /* Center the button horizontally on mobile */
+  font-family: "Montserrat";
 
   &:hover {
-    background-color: #1a513a;
-    color: #fff;
+    background-color: white;
+    color:#1a513a;
+    border: 2px solid #1a513a;
+
   }
 
   @media (max-width: 768px) {
     padding: 0.5rem 1rem;
     font-size: 0.875rem;
     display: block; /* Ensure it is block element */
+    margin: 0 auto; /* Center the button horizontally on mobile */
+
   }
 `;
 
@@ -287,8 +290,7 @@ const AmenitiesContainer = styled.div`
   gap: 2rem;
   max-width: 100%;
   margin: 0 auto;
-  border-top: 2px solid #ccc;
-  padding-top: 8rem;
+  margin-top: 2.5rem;
 
   @media (max-width: 768px) {
     gap: 1rem;
@@ -300,9 +302,7 @@ const AmenityCard = styled.div`
   flex-direction: column;
   align-items: center;
   background: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 0.5rem;
-  width: calc(22% - 5rem); /* Four per row on larger screens */
+  width: calc(22% - 4rem); /* Four per row on larger screens */
   transition: transform 0.3s ease;
 
   &:hover {
@@ -323,15 +323,16 @@ const AmenityCard = styled.div`
 `;
 
 const IconWrapper = styled.div`
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: #1a513a;
   margin-bottom: 1rem;
 `;
 
 const AmenityText = styled.p`
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: #1a513a;
   text-align: center;
+  
 `;
 
 export default AboutUs;

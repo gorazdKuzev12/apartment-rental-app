@@ -150,7 +150,7 @@ const GallerySection = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem 1rem;
+  padding: 0rem 1rem;
 
   @media (max-width: 768px) {
     padding: 1rem;
@@ -264,10 +264,14 @@ const ViewButton = styled.button`
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.3s ease;
-
+  font-family: "Montserrat";
+  background-color: #1a513a;
+  color: #fff;
   &:hover {
-    background-color: #1a513a;
-    color: #fff;
+
+    color: #1a513a;
+  border: 2px solid #1a513a;
+  background-color: white;
   }
 
   @media (max-width: 768px) {

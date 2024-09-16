@@ -331,9 +331,11 @@ const Title = styled.h2`
 `;
 
 const Description = styled.p`
-  font-size: 1rem;
+  font-size: 1.2rem;
   margin-bottom: 2rem;
   color: #717171;
+  font-family: "Montserrat";
+
 `;
 
 const Form = styled.form`

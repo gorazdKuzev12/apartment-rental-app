@@ -120,7 +120,7 @@ const Content = styled.div`
 const Title = styled.h1`
   font-size: 3rem;
   margin-bottom: 1rem;
-
+font-family: "Montserrat";
   @media (max-width: 768px) {
     font-size: 2rem;
   }
@@ -148,6 +148,8 @@ const CallButton = styled.a`
   text-decoration: none;
   transition: background-color 0.3s ease;
   border-radius: 5px;
+  font-family: "Montserrat";
+
 
   &:hover {
     background-color: #16432a;

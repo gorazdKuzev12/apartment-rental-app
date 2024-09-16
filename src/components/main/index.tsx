@@ -146,7 +146,7 @@ const Title = styled.h1`
 const Subtitle = styled.p`
   font-size: 1.25rem;
   margin-bottom: 2rem;
-
+font-family:"Montserrat";
   @media (max-width: 768px) {
     font-size: 1rem;
   }
@@ -164,6 +164,7 @@ const BookButton = styled.button`
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
+  font-family: "Montserrat";
   text-transform: uppercase;
   display: flex;
   align-items: center;
