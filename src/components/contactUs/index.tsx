@@ -73,7 +73,7 @@ const ContactSection = styled.section`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background: url("/image10.jpg") center/cover no-repeat; /* Adjust path to your background image */
+  background:url("https://res.cloudinary.com/dw9cab9ab/image/upload/v1/image1_ybvcap.jpg") center/cover no-repeat; /* Adjust path to your background image */
   position: relative;
 
   @media (max-width: 768px) {
