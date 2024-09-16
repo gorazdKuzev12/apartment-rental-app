@@ -101,7 +101,7 @@ const Header = () => {
     <Nav className={scrolled ? "scrolled" : ""}>
       <Logo>
         <Link href="/">
-          <img src="/logo.png" alt="Cilla Smaragdis Logo" />
+          <img src="/logo.png" alt="Villa Smaragdis Logo" />
         </Link>
       </Logo>
       <Hamburger onClick={toggleMenu}>
