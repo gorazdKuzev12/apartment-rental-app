@@ -120,7 +120,6 @@ const Content = styled.div`
 const Title = styled.h1`
   font-size: 3rem;
   margin-bottom: 1rem;
-font-family: "Montserrat";
   @media (max-width: 768px) {
     font-size: 2rem;
   }

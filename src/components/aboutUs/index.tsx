@@ -219,10 +219,11 @@ const Tagline = styled.h2`
 `;
 
 const Title = styled.h1`
-  font-size: 3rem;
+  font-size: 2.7rem;
   font-weight: bold;
   margin-bottom: 1rem;
   color: #1a513a;
+  font-family: "Nunito";
 
   @media (max-width: 768px) {
     font-size: 2.5rem;
@@ -240,7 +241,7 @@ const Description = styled.p`
   line-height: 1.6;
   margin-bottom: 2rem;
   color: #717171;
-  font-family: 'Montserrat';
+  
   @media (max-width: 768px) {
     font-size: 1.2rem;
   }
@@ -252,7 +253,8 @@ const ViewButton = styled.button`
   background-color: #1a513a;
 
   padding: 0.75rem 1.5rem;
-  font-size: 1rem;
+  font-size: 0.9rem;
+  letter-spacing: 3px;
   font-weight: bold;
   text-transform: uppercase;
   cursor: pointer;
@@ -327,7 +329,7 @@ const IconWrapper = styled.div`
 `;
 
 const AmenityText = styled.p`
-  font-size: 1rem;
+  font-size: 1.2rem;
   color: #1a513a;
   text-align: center;
   

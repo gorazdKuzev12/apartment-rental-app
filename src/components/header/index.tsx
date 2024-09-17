@@ -212,6 +212,7 @@ const NavItem = styled.a`
   &:hover {
     color: #388b7a;
     border-bottom: 2px solid #388b7a;
+    font-weight: bold;
   }
 
   @media (max-width: 768px) {
