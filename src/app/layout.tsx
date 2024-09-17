@@ -6,11 +6,12 @@ import StyledJsxRegistry from "../../registry"; // Correct the import path
 import { LanguageProvider } from "../context/LanguageContext"; // Correct import for LanguageContext
 
 // Import the Righteous font from Google using Next.js font optimization
-import { Righteous } from 'next/font/google';
+// Import the Cormorant Garamond font from Google using Next.js font optimization
+import { Cormorant_Garamond } from 'next/font/google';
 
-// Configure the Righteous font
-const righteous = Righteous({
-  weight: "400",
+// Configure the Cormorant Garamond font
+const cormorantGaramond = Cormorant_Garamond({
+  weight: ["300", "400", "600", "700"], // Choose a variety of weights for flexibility
   subsets: ["latin"],
 });
 
@@ -26,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <StyledJsxRegistry>
-      <html lang="en" className={righteous.className}>
+      <html lang="en" className={cormorantGaramond.className}>
       <head>
           <link rel="icon" href="/favicon.ico" sizes="any" type="image/x-icon" /> {/* Favicon added here */}
           <meta name="description" content="Vila Smaragdis - Natural oasis" />

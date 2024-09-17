@@ -321,10 +321,11 @@ const RightColumn = styled.div`
 `;
 
 const Title = styled.h2`
-  font-size: 2.5rem;
+  font-size: 2.7rem;
   margin-bottom: 1rem;
   color: #1a513a;
-
+font-family: "Nunito";
+  font-weight: bold;
   @media (max-width: 768px) {
     font-size: 2rem;
   }
@@ -334,7 +335,6 @@ const Description = styled.p`
   font-size: 1.2rem;
   margin-bottom: 2rem;
   color: #717171;
-  font-family: "Montserrat";
 
 `;
 

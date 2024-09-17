@@ -14,7 +14,7 @@ const translations: {
   SR: {
     title: "Spoj prirode i komfora",
     subtitle:
-      "Vila Smaragdis pruža vrhunski konfor, luksuz i mir. Idealna za ljubitelje prirode i sve koji traže kvalitetan odmor.",
+      "Vila Smaragdis pruža vrhunski komfor, luksuz i mir. Idealna za ljubitelje prirode i sve koji traže kvalitetan odmor.",
     book: "Pitajte o apartmanu",
   },
   EN: {
@@ -134,8 +134,10 @@ const Content = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   margin-bottom: 1rem;
+  font-weight:bold;
+  font-family: "Poppins";
 
   @media (max-width: 768px) {
     font-size: 2rem;
@@ -149,7 +151,7 @@ const Title = styled.h1`
 const Subtitle = styled.p`
   font-size: 1.25rem;
   margin-bottom: 2rem;
-font-family:"Montserrat";
+
   @media (max-width: 768px) {
     font-size: 1rem;
   }

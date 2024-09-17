@@ -258,13 +258,14 @@ const ViewButton = styled.button`
   color: #1a513a;
   border: 2px solid #1a513a;
   padding: 1rem 1.5rem;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: bold;
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: "Montserrat";
   background-color: #1a513a;
+  letter-spacing: 3px;
   color: #fff;
   &:hover {
 
