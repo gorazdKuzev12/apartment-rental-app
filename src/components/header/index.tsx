@@ -34,9 +34,9 @@ const translations: { [key: string]: { [key: string]: string } } = {
 
 // Language information
 const languages = [
-  { code: 'SR', name: 'Serbian', flag: 'RS' },
+  { code: 'SR', name: 'Srpski', flag: 'RS' },
   { code: 'EN', name: 'English (US)', flag: 'US' },
-  { code: 'DE', name: 'German', flag: 'DE' },
+  { code: 'DE', name: 'Deutsch', flag: 'DE' },
 ];
 
 const Header = () => {
