@@ -202,17 +202,16 @@ const Overlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   transition: opacity 0.3s ease;
   text-transform: uppercase;
-
-  ${ImageWrapper}:hover & {
+  cursor: pointer;
     opacity: 1;
-  }
+  
 `;
 
 const OverlayText = styled.span`
@@ -258,15 +257,15 @@ const ViewButton = styled.button`
   color: #1a513a;
   border: 2px solid #1a513a;
   padding: 1rem 1.5rem;
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   font-weight: bold;
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: "Montserrat";
   background-color: #1a513a;
-  letter-spacing: 3px;
-  color: #fff;
+  letter-spacing: 5px;
+  color: #fbfbfb;
   &:hover {
 
     color: #1a513a;

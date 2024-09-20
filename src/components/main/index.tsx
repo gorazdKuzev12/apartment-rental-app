@@ -140,11 +140,11 @@ const Title = styled.h1`
   font-family: "Poppins";
 
   @media (max-width: 768px) {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
 
   @media (max-width: 480px) {
-    font-size: 1.75rem;
+    font-size: 2rem;
   }
 `;
 

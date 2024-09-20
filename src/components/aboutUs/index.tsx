@@ -253,8 +253,8 @@ const ViewButton = styled.button`
   background-color: #1a513a;
 
   padding: 0.75rem 1.5rem;
-  font-size: 0.9rem;
-  letter-spacing: 3px;
+  font-size: 0.7rem;
+  letter-spacing: 5px;
   font-weight: bold;
   text-transform: uppercase;
   cursor: pointer;

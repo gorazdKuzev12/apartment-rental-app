@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa"; // Import icons for the hamburger menu
 import { useLanguage } from "@/context/LanguageContext";
+import Flag from 'react-world-flags';
+
+// Translation dictionary
 const translations: { [key: string]: { [key: string]: string } } = {
   SR: {
     home: "Početna",
@@ -29,11 +32,20 @@ const translations: { [key: string]: { [key: string]: string } } = {
   },
 };
 
+// Language information
+const languages = [
+  { code: 'SR', name: 'Serbian', flag: 'RS' },
+  { code: 'EN', name: 'English (US)', flag: 'US' },
+  { code: 'DE', name: 'German', flag: 'DE' },
+];
+
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false); // State to manage menu visibility
+  const [isOpen, setIsOpen] = useState(false); // State to manage the language dropdown
   const { language, setLanguage } = useLanguage(); // Use the LanguageContext
   const router = useRouter();
+
   const throttle = (func: { (): void; apply?: any; }, limit: number) => {
     let lastFunc: string | number | NodeJS.Timeout | undefined;
     let lastRan: number;
@@ -52,11 +64,11 @@ const Header = () => {
       }
     };
   };
+
   useEffect(() => {
     const handleScroll = () => {
-      // Add a buffer to prevent rapid toggling around the threshold
       const threshold = 50;
-      const buffer = 10; // Add a buffer to make transitions smoother
+      const buffer = 10;
 
       if (window.scrollY > threshold + buffer && !scrolled) {
         setScrolled(true);
@@ -65,7 +77,6 @@ const Header = () => {
       }
     };
 
-    // Throttle the scroll event for performance
     const throttledHandleScroll = throttle(handleScroll, 200);
 
     window.addEventListener("scroll", throttledHandleScroll);
@@ -75,7 +86,6 @@ const Header = () => {
   const handleNavigation = async (path: string, hash: string) => {
     await router.push(path);
 
-    // Polling to check if the element exists
     const checkExist = setInterval(() => {
       if (hash) {
         const element = document.getElementById(hash);
@@ -84,18 +94,21 @@ const Header = () => {
           clearInterval(checkExist);
         }
       }
-    }, 100); // Check every 100ms
+    }, 100); 
 
-    setMenuOpen(false); // Close the menu after navigation
+    setMenuOpen(false); 
   };
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
-  const handleLanguageChange = (event: { target: { value: any } }) => {
-    setLanguage(event.target.value);
+  const handleLanguageChange = (langCode: string) => {
+    setLanguage(langCode);
+    setIsOpen(false); // Close dropdown after selection
   };
+
+  const selectedLanguage = languages.find((lang) => lang.code === language);
 
   return (
     <Nav className={scrolled ? "scrolled" : ""}>
@@ -124,14 +137,26 @@ const Header = () => {
           {translations[language].contact}
         </NavItem>
       </NavMenu>
-      <LanguageSelect value={language} onChange={handleLanguageChange}>
-        <option value="SR">Serbian</option>
-        <option value="EN">English (US)</option>
-        <option value="DE">German</option>
-      </LanguageSelect>
+      <LanguageSelectContainer>
+        <SelectButton onClick={() => setIsOpen(!isOpen)}>
+          <Flag code={selectedLanguage?.flag || 'US'} width="24" height="16" />
+          {selectedLanguage?.name}
+        </SelectButton>
+        {isOpen && (
+          <DropdownMenu>
+            {languages.map((lang) => (
+              <DropdownItem key={lang.code} onClick={() => handleLanguageChange(lang.code)}>
+                <Flag code={lang.flag} width="24" height="16" />
+                {lang.name}
+              </DropdownItem>
+            ))}
+          </DropdownMenu>
+        )}
+      </LanguageSelectContainer>
     </Nav>
   );
 };
+
 
 const Nav = styled.nav`
   display: flex;
@@ -163,7 +188,7 @@ const Logo = styled.div`
     transition: height 0.3s ease;
 
     @media (max-width: 768px) {
-      height: 70px; /* Adjust logo height for smaller screens */
+      height: 80px; /* Adjust logo height for smaller screens */
     }
   }
 `;
@@ -172,7 +197,7 @@ const Hamburger = styled.div`
   display: none;
   cursor: pointer;
   font-size: 1.5rem;
-  color: #000;
+  color: #626262;
 
   @media (max-width: 768px) {
     display: block;
@@ -207,7 +232,7 @@ const NavItem = styled.a`
   color: #000;
   cursor: pointer;
   transition: color 0.3s ease;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
 
   &:hover {
     color: #388b7a;
@@ -241,5 +266,56 @@ const LanguageSelect = styled.select`
     cursor: pointer;
   }
 `;
+const LanguageSelectContainer = styled.div`
+  position: relative;
+  display: inline-block;
+`;
+
+const SelectButton = styled.button`
+  font-size: 1rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  margin-left: 1rem;
+  display: flex;
+  align-items: center;
+  color: #626262;
+
+  font-family: "Nunito";
+
+  /* Make sure the button aligns well with the surrounding elements */
+  img {
+    display: block;
+  }
+`;
+
+const DropdownMenu = styled.ul`
+  position: absolute;
+  top: 100%; /* Pushes the dropdown below the button */
+  right: 0;  /* Aligns the dropdown to the right edge of the button */
+  list-style: none;
+  background: #fff;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #ccc;
+  width: 150px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds shadow for better visibility */
+`;
+
+const DropdownItem = styled.li`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  height: 40px;
+
+  &:hover {
+    background: #f0f0f0;
+  }
+
+  img {
+    margin-right: 0.5rem;
+  }
+`;
+
 
 export default Header;
