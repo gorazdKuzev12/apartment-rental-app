@@ -27,7 +27,7 @@ const translations: {
   };
 } = {
   SR: {
-    title: "Smaragdis: Prirodna oaza u srcu Fruške gore",
+    title: "Smaragdis: Oaza u srcu Fruške gore",
     description: `
       Vila Smaragdis se nalazi u srcu Fruške gore, na samo 23 km od Novog Sada. Ova potpuno nova i kompletno opremljena vila može da primi 8 osoba. Pružamo organizaciju različitih proslava, seminara i team building događaja. Vila ima bazen dimenzija 10x5 metara sa toplotnom pumpom i slanom vodom, plažu sa ležaljkama i suncobranima, finsku saunu i igralište za decu. U vili se nalaze tri spavaće sobe, dva kupatila. Sve sobe nude pogled na predivnu planinu Frušku goru. Takođe, vila poseduje privatni parking namenjen za 5 automobila.
     `,
@@ -42,13 +42,13 @@ const translations: {
       "2 Klime",
       "4 TV-a",
       "Pet Friendly",
-      "Mikrotalasna",
+      "BBQ",
     ],
     tagline: "",
   },
   EN: {
     tagline: "Luxury Apartments",
-    title: "Smaragdis: A Natural Oasis in the Heart of Fruška Gora",
+    title: "Smaragdis: Oasis in the Heart of Fruška Gora",
     description: `
       Villa Smaragdis is located in the heart of Fruška Gora, just 23 km from Novi Sad. This brand new and fully equipped villa can accommodate 8 people. We offer organization of various celebrations, seminars, and team-building events. The villa has a 10x5 meter pool with a heat pump and sea salt, a beach with loungers and umbrellas, a Finnish sauna, and a children's playground. The villa has three bedrooms, two bathrooms. All rooms offer a view of the beautiful Fruška Gora mountain. Additionally, the villa has private parking for 5 cars.
     `,
@@ -63,12 +63,12 @@ const translations: {
       "2 Air Conditioners",
       "4 TVs",
       "Pet Friendly",
-      "Microwave",
+      "BBQ",
     ],
   },
   DE: {
     tagline: "Luxuswohnungen",
-    title: "Smaragdis: Eine natürliche Oase im Herzen von Fruška Gora",
+    title: "Smaragdis: Oase im Herzen von Fruška Gora",
     description: `
       Die Villa Smaragdis befindet sich im Herzen von Fruška Gora, nur 23 km von Novi Sad entfernt. Diese brandneue und voll ausgestattete Villa bietet Platz für 8 Personen. Wir bieten die Organisation verschiedener Feierlichkeiten, Seminare und Team-Building-Veranstaltungen an. Die Villa verfügt über einen 10x5 Meter großen Pool mit Wärmepumpe und Meersalz, einen Strand mit Liegestühlen und Sonnenschirmen, eine finnische Sauna und einen Kinderspielplatz. Die Villa hat drei Schlafzimmer und zwei Badezimmer. Alle Zimmer bieten Blick auf den schönen Berg Fruška Gora. Darüber hinaus verfügt die Villa über einen privaten Parkplatz für 5 Autos.
     `,
@@ -83,7 +83,7 @@ const translations: {
       "2 Klimaanlagen",
       "4 Fernseher",
       "Haustierfreundlich",
-      "Mikrowelle",
+      "BBQ",
     ],
   },
 };
@@ -111,7 +111,6 @@ const AboutUs = () => {
         <RightColumn>
           <Description>{translations[language].description}</Description>
           <ViewButton onClick={handleGetDirections}>
-            <FontAwesomeIcon icon={faMapMarkerAlt} />
             &nbsp;{translations[language].button}
           </ViewButton>
         </RightColumn>
