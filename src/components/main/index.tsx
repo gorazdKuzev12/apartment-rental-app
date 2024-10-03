@@ -15,13 +15,13 @@ const translations: {
     title: "Spoj prirode i komfora",
     subtitle:
       "Vila Smaragdis pruža vrhunski komfor, luksuz i mir. Idealna za ljubitelje prirode i sve koji traže kvalitetan odmor.",
-    book: "Pitajte o apartmanu",
+    book: "Posalji upit",
   },
   EN: {
     title: "Blend of Nature and Comfort",
     subtitle:
       "Villa Smaragdis offers top-notch comfort, luxury, and tranquility. Ideal for nature lovers and those seeking a quality vacation.",
-    book: "Book the Apartment",
+    book: "Send Request",
   },
   DE: {
     title: "Kombination von Natur und Komfort",

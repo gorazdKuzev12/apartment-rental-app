@@ -18,10 +18,10 @@ const Gallery = () => {
   } = {
     SR: {
       overlayTexts: [
-        "Eksterijer",  // Exterior
-        "Interijer",   // Interior
+        "Ambijent",  // Exterior
+        "Enterijer",   // Interior
         "Proslave",    // Events/Celebrations
-        "Opustanje",   // Relaxation
+        "Spa",   // Relaxation
       ],
       viewGallery: "Pogledajte celu galeriju",
     },
@@ -30,7 +30,7 @@ const Gallery = () => {
         "Exterior",
         "Interior",
         "Events",
-        "Relaxation",
+        "Spa",
       ],
       viewGallery: "View Full Gallery",
     },
@@ -79,7 +79,15 @@ const Gallery = () => {
 
       { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6710_j66xie.jpg", alt: "Proslave 2" },
       { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6706_rvkmor.jpg", alt: "Proslave 3" },
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6707_w0lxk5.jpg", alt: "Proslave 4" }
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6707_w0lxk5.jpg", alt: "Proslave 4" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/4d4b4e09-7dce-4116-bc00-6180b5975906_vqkfrn.jpg", alt: "Proslave 5" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/52bd2c36-c00f-4ad6-877a-c65b628362f1_1_xgdkjs.jpg", alt: "Proslave 6" },
+
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/c9cf3b1e-ab30-4c4b-b47d-4303c1bbd408_k6egiw.jpg", alt: "Proslave 7" },
+      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/07d02067-fb73-4b4e-8fdd-9c39defbada6_cmlqia.jpg", alt: "Proslave 8" }
+
+
+
     ],
     relaxation: [
       { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6704_ljtxp8.jpg", alt: "Relaxation 1" },
