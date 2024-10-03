@@ -18,10 +18,10 @@ const Gallery = () => {
   } = {
     SR: {
       overlayTexts: [
-        "Eksterijer",  // Exterior
-        "Interijer",   // Interior
+        "Ambijent",  // Exterior
+        "Enterijer",   // Interior
         "Proslave",    // Events/Celebrations
-        "Opustanje",   // Relaxation
+        "Spa",   // Relaxation
       ],
       viewGallery: "Pogledajte celu galeriju",
     },
@@ -30,7 +30,7 @@ const Gallery = () => {
         "Exterior",
         "Interior",
         "Events",
-        "Relaxation",
+        "Spa",
       ],
       viewGallery: "View Full Gallery",
     },
