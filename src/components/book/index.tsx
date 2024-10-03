@@ -10,7 +10,7 @@ import { useLanguage } from "@/context/LanguageContext"; // Import the useLangua
 
 const translations: { [key: string]: { [key: string]: string } } = {
   SR: {
-    title: "Rezervišite danas",
+    title: "Pošaljite zahtev danas",
     description: "Kontaktirajte naš tim za više informacija.",
     name: "Ime",
     email: "Email*",
@@ -19,12 +19,12 @@ const translations: { [key: string]: { [key: string]: string } } = {
     checkOut: "Datum odlaska",
     question: "Pitanje",
     submit: "Upitaj",
-    successTitle: "Uspešno rezervisano!",
+    successTitle: "Uspešno slanje zahteva!",
     successMessage: "Vaša rezervacija je na čekanju. Kontaktiraće vas vlasnik.",
     close: "Zatvori",
   },
   EN: {
-    title: "Book Now",
+    title: "Send the request today",
     description: "Contact our team for more information.",
     name: "Name*",
     email: "Email*",
@@ -38,7 +38,7 @@ const translations: { [key: string]: { [key: string]: string } } = {
     close: "Close",
   },
   DE: {
-    title: "Jetzt buchen",
+    title: "Senden Sie die Anfrage heute",
     description: "Kontaktieren Sie unser Team für weitere Informationen.",
     name: "Name*",
     email: "Email*",

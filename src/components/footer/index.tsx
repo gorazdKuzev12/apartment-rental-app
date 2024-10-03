@@ -107,10 +107,8 @@ const Footer = () => {
             {translations[language].getDirections}
           </GetDirections>
           <SocialIcons>
-            <SocialIcon href="#">
-              <FontAwesomeIcon icon={faFacebook} />
-            </SocialIcon>
-            <SocialIcon href="#">
+       
+            <SocialIcon href="https://www.instagram.com/villa_smaragdis?igsh=MTZsMjZjbWx5bGw4aQ%3D%3D">
               <FontAwesomeIcon icon={faInstagram} />
             </SocialIcon>
           </SocialIcons>
@@ -142,14 +140,8 @@ const Footer = () => {
       </FooterContent>
       <FooterBottom>
         <Copyright>
-          © 2024 Your Company |{" "}
-          <FooterLink href="#">
-            {translations[language].privacyPolicy}
-          </FooterLink>{" "}
-          |{" "}
-          <FooterLink href="#">
-            {translations[language].accessibilityStatement}
-          </FooterLink>
+          © 2024 Villa Smaragdis|{" "}
+      
         </Copyright>
       </FooterBottom>
     </FooterContainer>
