@@ -46,44 +46,7 @@ export default function RootLayout({
           <meta name="twitter:description" content="Luksuzna vila sa bazenom i saunom na Fruškoj Gori, idealna za odmor blizu Novog Sada." />
           <meta name="twitter:image" content="https://villasmaragdis.com/images/twitter-image.jpg" />
 
-          {/* Structured Data for SEO */}
-          <script type="application/ld+json">
-            {JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "LodgingBusiness",
-              "name": "Vila Smaragdis",
-              "description": "Luksuzna vila sa privatnim bazenom i saunom, smeštena u srcu Fruške gore. Idealna za porodice, parove i grupe koje traže odmor u prirodi.",
-              "image": "https://villasmaragdis.com/images/vila.jpg",
-              "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "Adresa vile", // Replace with actual address
-                "addressLocality": "Novi Sad",
-                "postalCode": "21000",
-                "addressCountry": "RS"
-              },
-              "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": "45.2600", // Replace with actual latitude
-                "longitude": "19.8335" // Replace with actual longitude
-              },
-              "url": "https://villasmaragdis.com/",
-              "telephone": "+381123456789", // Replace with actual phone number
-              "amenityFeature": [
-                {
-                  "@type": "LocationFeatureSpecification",
-                  "name": "Bazen",
-                  "value": true
-                },
-                {
-                  "@type": "LocationFeatureSpecification",
-                  "name": "Sauna",
-                  "value": true
-                }
-              ],
-              "priceRange": "$$$",
-              "openingHours": "Mo-Su"
-            })}
-          </script>
+
 
           <title>Vila Smaragdis - Luksuzna Vila na Fruškoj Gori</title>
         </head>
