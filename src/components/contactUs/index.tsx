@@ -49,7 +49,7 @@ const ContactUs = () => {
             </CallButton>
             <SocialButtons>
               <InstagramButton
-                href="https://www.instagram.com/youraccount"
+                href="https://www.instagram.com/villa_smaragdis?igsh=MTZsMjZjbWx5bGw4aQ%3D%3D"
                 target="_blank"
               >
                 {/* <FontAwesomeIcon icon={faInstagram} /> */}
