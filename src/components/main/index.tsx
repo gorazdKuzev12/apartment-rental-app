@@ -31,7 +31,11 @@ const translations: {
   },
 };
 
-const Main = () => {
+interface MainProps {
+  video: string;
+}
+
+const Main = ({ video }: MainProps) => {
   const { language } = useLanguage();
   const [isMobile, setIsMobile] = useState(false);
   const router = useRouter(); // Get the router object
@@ -91,7 +95,7 @@ const Main = () => {
 
       >
         <source
-          src="https://res.cloudinary.com/dw9cab9ab/video/upload/v1723104762/video_fvsvvx.mp4"
+          src={video}
           type="video/mp4"
         />
         Your browser does not support the video tag.

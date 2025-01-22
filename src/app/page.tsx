@@ -10,7 +10,7 @@ const Home = () => {
   return (
     <>
       <Header />
-      <Main />
+      <Main video={video} />
       <AboutUs />
       <Gallery />
       <ContactUs />
@@ -19,5 +19,7 @@ const Home = () => {
     </>
   );
 };
+
+const video = "https://res.cloudinary.com/dw9cab9ab/video/upload/v1723104762/video_fvsvvx.mp4"
 
 export default Home;
