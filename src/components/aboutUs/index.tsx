@@ -1,100 +1,69 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faMapMarkerAlt,
-  faSnowflake,
   faBed,
-  faUtensils,
+  faBath,
   faSwimmingPool,
   faHotTub,
-  faBath,
   faWifi,
   faParking,
-  faPaw,
+  faSnowflake,
   faTv,
-} from "@fortawesome/free-solid-svg-icons"; // Import the necessary icons
-import { useLanguage } from "@/context/LanguageContext"; // Import the useLanguage hook
+  faPaw,
+  faUtensils,
+} from "@fortawesome/free-solid-svg-icons";
+import { useLanguage } from "@/context/LanguageContext";
 
-const translations: {
-  [key: string]: {
-    tagline: string;
-    title: string;
-    description: string;
-    button: string;
-    amenities: string[];
-  };
-} = {
-  SR: {
-    title: "Smaragdis: Oaza u srcu Fruške gore",
-    description: `
-      Vila Smaragdis se nalazi u srcu Fruške gore, na samo 23 km od Novog Sada. Ova potpuno nova i kompletno opremljena vila može da primi 8 osoba. Pružamo organizaciju različitih proslava, seminara i team building događaja. Vila ima bazen dimenzija 10x5 metara sa toplotnom pumpom i slanom vodom, plažu sa ležaljkama i suncobranima, finsku saunu i igralište za decu. U vili se nalaze tri spavaće sobe, dva kupatila. Sve sobe nude pogled na predivnu planinu Frušku goru. Takođe, vila poseduje privatni parking namenjen za 5 automobila.
-    `,
-    button: "Pronađi lokaciju",
-    amenities: [
-      "3 Spavaće sobe",
-      "2 Kupatila",
-      "Bazen",
-      "Sauna",
-      "WiFi",
-      "Parking",
-      "2 Klime",
-      "4 TV-a",
-      "Pet Friendly",
-      "BBQ",
-    ],
-    tagline: "",
-  },
-  EN: {
-    tagline: "Luxury Apartments",
-    title: "Smaragdis: Oasis in the Heart of Fruška Gora",
-    description: `
-      Villa Smaragdis is located in the heart of Fruška Gora, just 23 km from Novi Sad. This brand new and fully equipped villa can accommodate 8 people. We offer organization of various celebrations, seminars, and team-building events. The villa has a 10x5 meter pool with a heat pump and sea salt, a beach with loungers and umbrellas, a Finnish sauna, and a children's playground. The villa has three bedrooms, two bathrooms. All rooms offer a view of the beautiful Fruška Gora mountain. Additionally, the villa has private parking for 5 cars.
-    `,
-    button: "Get Location",
-    amenities: [
-      "3 Bedrooms",
-      "2 Bathrooms",
-      "Pool",
-      "Sauna",
-      "WiFi",
-      "Parking",
-      "2 Air Conditioners",
-      "4 TVs",
-      "Pet Friendly",
-      "BBQ",
-    ],
-  },
-  DE: {
-    tagline: "Luxuswohnungen",
-    title: "Smaragdis: Oase im Herzen von Fruška Gora",
-    description: `
-      Die Villa Smaragdis befindet sich im Herzen von Fruška Gora, nur 23 km von Novi Sad entfernt. Diese brandneue und voll ausgestattete Villa bietet Platz für 8 Personen. Wir bieten die Organisation verschiedener Feierlichkeiten, Seminare und Team-Building-Veranstaltungen an. Die Villa verfügt über einen 10x5 Meter großen Pool mit Wärmepumpe und Meersalz, einen Strand mit Liegestühlen und Sonnenschirmen, eine finnische Sauna und einen Kinderspielplatz. Die Villa hat drei Schlafzimmer und zwei Badezimmer. Alle Zimmer bieten Blick auf den schönen Berg Fruška Gora. Darüber hinaus verfügt die Villa über einen privaten Parkplatz für 5 Autos.
-    `,
-    button: "Standort finden",
-    amenities: [
-      "3 Schlafzimmer",
-      "2 Badezimmer",
-      "Pool",
-      "Sauna",
-      "WiFi",
-      "Parkplatz",
-      "2 Klimaanlagen",
-      "4 Fernseher",
-      "Haustierfreundlich",
-      "BBQ",
-    ],
-  },
-};
+const amenityIcons = [
+  faBed,
+  faBath,
+  faSwimmingPool,
+  faHotTub,
+  faWifi,
+  faParking,
+  faSnowflake,
+  faTv,
+  faPaw,
+  faUtensils,
+];
 
-const AboutUs = () => {
-  const { language } = useLanguage(); // Get the current language from the context
+interface AboutUsData {
+  tagline: Record<string, string>;
+  title: Record<string, string>;
+  description: Record<string, string>;
+  button_text: Record<string, string>;
+  address: string;
+  logo: string;
+  amenities: Record<string, string[]>;
+  languageCode: string;
+}
+
+const AboutUs = ({ aboutData }: { aboutData: AboutUsData }) => {
+  const [localizedData, setLocalizedData] = useState({
+    tagline: aboutData.tagline["EN"], // Default to English
+    title: aboutData.title["EN"],
+    description: aboutData.description["EN"],
+    button_text: aboutData.button_text["EN"],
+    amenities: aboutData.amenities["EN"],
+  });
+  const language = aboutData.languageCode.toUpperCase();
+
+  useEffect(() => {
+    setLocalizedData({
+      tagline: aboutData.tagline[language] || aboutData.tagline["EN"],
+      title: aboutData.title[language] || aboutData.title["EN"],
+      description: aboutData.description[language] || aboutData.description["EN"],
+      button_text: aboutData.button_text[language] || aboutData.button_text["EN"],
+      amenities: aboutData.amenities[language] || aboutData.amenities["EN"],
+    });
+  }, [language, aboutData]);
 
   const handleGetDirections = () => {
-    const address = "Kaludjerica 52, Čerević 21311, Serbia"; // Change to your desired address
     const mapsUrl = `https://www.google.com/maps?q=${encodeURIComponent(
-      address
+      aboutData.address
     )}`;
     window.open(mapsUrl, "_blank");
   };
@@ -103,46 +72,38 @@ const AboutUs = () => {
     <AboutSection id="about-us">
       <Container>
         <LeftColumn>
-          <Logo src="/logo.png" alt="Villa Smaragdis Logo" />
-          <Tagline>{translations[language].tagline}</Tagline>
-          <Title>{translations[language].title}</Title>
+          <Logo
+            src={aboutData.logo || "/logo.png"}
+            alt="Villa Smaragdis Logo"
+          />
+          <Tagline>{localizedData.tagline}</Tagline>
+          <Title>{localizedData.title}</Title>
           <Separator />
         </LeftColumn>
         <RightColumn>
-          <Description>{translations[language].description}</Description>
+          <Description>{localizedData.description}</Description>
           <ViewButton onClick={handleGetDirections}>
-            &nbsp;{translations[language].button}
+            {localizedData.button_text}
           </ViewButton>
         </RightColumn>
       </Container>
       <AmenitiesSection>
-      <AmenitiesContainer>
-        {translations[language].amenities.map((amenity, index) => (
-          <AmenityCard key={index}>
-            <IconWrapper>
-              <FontAwesomeIcon icon={amenityIcons[index]} />
-            </IconWrapper>
-            <AmenityText>{amenity}</AmenityText>
-          </AmenityCard>
-        ))}
-      </AmenitiesContainer>
-    </AmenitiesSection>
+        <AmenitiesContainer>
+          {localizedData.amenities.map((amenity, index) => (
+            <AmenityCard key={index}>
+              <IconWrapper>
+                <FontAwesomeIcon icon={amenityIcons[index] || faUtensils} />
+              </IconWrapper>
+              <AmenityText>{amenity}</AmenityText>
+            </AmenityCard>
+          ))}
+        </AmenitiesContainer>
+      </AmenitiesSection>
     </AboutSection>
   );
 };
 
-const amenityIcons = [
-  faBed, // 3 Spavaće sobe / 3 Bedrooms / 3 Schlafzimmer
-  faBath, // 2 Kupatila / 2 Bathrooms / 2 Badezimmer
-  faSwimmingPool, // Bazen / Pool / Pool
-  faHotTub, // Sauna / Sauna / Sauna
-  faWifi, // WiFi / WiFi / WiFi
-  faParking, // Parking / Parking / Parkplatz
-  faSnowflake, // 2 Klime / 2 Air Conditioners / 2 Klimaanlagen
-  faTv, // 4 TV-a / 4 TVs / 4 Fernseher
-  faPaw, // Pet Friendly / Pet Friendly / Haustierfreundlich
-  faUtensils, // Mikrotalasna / Microwave / Mikrowelle
-];
+
 
 const AboutSection = styled.section`
   display: flex;

@@ -1,49 +1,32 @@
 "use client";
 import styled from "styled-components";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FaBars, FaTimes } from "react-icons/fa"; // Import icons for the hamburger menu
+import { FaBars, FaTimes } from "react-icons/fa";
 import { useLanguage } from "@/context/LanguageContext";
-import Flag from 'react-world-flags';
+import Flag from "react-world-flags";
 
-// Translation dictionary
-const translations: { [key: string]: { [key: string]: string } } = {
-  SR: {
-    home: "Početna",
-    book: "Rezerviši",
-    gallery: "Galerija",
-    about: "O nama",
-    contact: "Kontakt",
-  },
-  EN: {
-    home: "Home",
-    book: "Book",
-    gallery: "Gallery",
-    about: "About",
-    contact: "Contact",
-  },
-  DE: {
-    home: "Startseite",
-    book: "Buchen",
-    gallery: "Galerie",
-    about: "Über uns",
-    contact: "Kontakt",
-  },
-};
+interface NavigationItem {
+  slug: string;
+  label: any;
+  translations: any;
+  id: string;
+  
+  
+}
 
-// Language information
-const languages = [
-  { code: 'SR', name: 'Srpski', flag: 'RS' },
-  { code: 'EN', name: 'English (US)', flag: 'US' },
-  { code: 'DE', name: 'Deutsch', flag: 'DE' },
-];
+interface HeaderProps {
+  navigationItems: NavigationItem[];
+}
 
-const Header = () => {
+const Header = ({ navigationItems }: HeaderProps) => {
+  console.log(navigationItems)
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false); // State to manage menu visibility
-  const [isOpen, setIsOpen] = useState(false); // State to manage the language dropdown
-  const { language, setLanguage } = useLanguage(); // Use the LanguageContext
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const { language, setLanguage } = useLanguage();
+  const pathname = usePathname();
   const router = useRouter();
 
   const throttle = (func: { (): void; apply?: any; }, limit: number) => {
@@ -64,6 +47,7 @@ const Header = () => {
       }
     };
   };
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -98,14 +82,18 @@ const Header = () => {
 
     setMenuOpen(false); 
   };
-
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
   const handleLanguageChange = (langCode: string) => {
     setLanguage(langCode);
-    setIsOpen(false); // Close dropdown after selection
+    setIsOpen(false);
+
+    const segments = pathname.split("/");
+    segments[1] = langCode.toLowerCase();
+    const newPath = segments.join("/");
+    router.push(newPath);
   };
 
   const selectedLanguage = languages.find((lang) => lang.code === language);
@@ -121,25 +109,15 @@ const Header = () => {
         {menuOpen ? <FaTimes /> : <FaBars />}
       </Hamburger>
       <NavMenu className={menuOpen ? "open" : ""}>
-        <NavItem onClick={() => handleNavigation("/", "home")}>
-          {translations[language].home}
-        </NavItem>
-        <NavItem onClick={() => handleNavigation("/", "book-room")}>
-          {translations[language].book}
-        </NavItem>
-        <NavItem as={Link} href="/gallery">
-          {translations[language].gallery}
-        </NavItem>
-        <NavItem onClick={() => handleNavigation("/", "about-us")}>
-          {translations[language].about}
-        </NavItem>
-        <NavItem onClick={() => handleNavigation("/", "contact")}>
-          {translations[language].contact}
-        </NavItem>
+        {navigationItems.map((item) => (
+          <NavItem key={item.id} onClick={() => handleNavigation("/sr",item.slug)}>
+            {item.translations[language] || item.label}
+          </NavItem>
+        ))}
       </NavMenu>
       <LanguageSelectContainer>
         <SelectButton onClick={() => setIsOpen(!isOpen)}>
-          <Flag code={selectedLanguage?.flag || 'US'} width="24" height="16" />
+          <Flag code={selectedLanguage?.flag || "US"} width="24" height="16" />
           {selectedLanguage?.name}
         </SelectButton>
         {isOpen && (
@@ -157,6 +135,11 @@ const Header = () => {
   );
 };
 
+const languages = [
+  { code: "SR", name: "Srpski", flag: "RS" },
+  { code: "EN", name: "English (US)", flag: "US" },
+  { code: "DE", name: "Deutsch", flag: "DE" },
+];
 
 const Nav = styled.nav`
   display: flex;
@@ -188,7 +171,7 @@ const Logo = styled.div`
     transition: height 0.3s ease;
 
     @media (max-width: 768px) {
-      height: 80px; /* Adjust logo height for smaller screens */
+      height: 80px;
     }
   }
 `;
@@ -201,7 +184,7 @@ const Hamburger = styled.div`
 
   @media (max-width: 768px) {
     display: block;
-    font-size: 2rem; /* Increase size for smaller screens */
+    font-size: 2rem;
   }
 `;
 
@@ -250,22 +233,6 @@ const NavItem = styled.a`
   }
 `;
 
-const LanguageSelect = styled.select`
-  font-size: 1rem;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  margin-left: 1rem;
-
-  option {
-    display: flex;
-    align-items: center;
-    padding: 0.5rem;
-    background: #fff;
-    color: #000;
-    cursor: pointer;
-  }
-`;
 const LanguageSelectContainer = styled.div`
   position: relative;
   display: inline-block;
@@ -282,24 +249,19 @@ const SelectButton = styled.button`
   color: #626262;
 
   font-family: "Nunito";
-
-  /* Make sure the button aligns well with the surrounding elements */
-  img {
-    display: block;
-  }
 `;
 
 const DropdownMenu = styled.ul`
   position: absolute;
-  top: 100%; /* Pushes the dropdown below the button */
-  right: 0;  /* Aligns the dropdown to the right edge of the button */
+  top: 100%;
+  right: 0;
   list-style: none;
   background: #fff;
   padding: 0;
   margin: 0;
   border: 1px solid #ccc;
   width: 150px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds shadow for better visibility */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const DropdownItem = styled.li`
@@ -316,6 +278,5 @@ const DropdownItem = styled.li`
     margin-right: 0.5rem;
   }
 `;
-
 
 export default Header;
