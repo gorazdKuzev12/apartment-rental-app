@@ -69,7 +69,9 @@ const Header = ({ navigationItems }: HeaderProps) => {
   }, [scrolled]);
 
   const handleNavigation = async (path: string, hash: string) => {
-    await router.push(path);
+    // Use the current language for navigation
+    const localePath = `/${language.toLowerCase()}`;
+    await router.push(localePath);
 
     const checkExist = setInterval(() => {
       if (hash) {
@@ -102,7 +104,7 @@ const Header = ({ navigationItems }: HeaderProps) => {
   return (
     <Nav className={scrolled ? "scrolled" : ""}>
       <Logo>
-        <Link href="/">
+        <Link href={`/${language.toLowerCase()}`}>
           <img src="/logo.png" alt="Villa Smaragdis Logo" />
         </Link>
       </Logo>
@@ -111,7 +113,7 @@ const Header = ({ navigationItems }: HeaderProps) => {
       </Hamburger>
       <NavMenu className={menuOpen ? "open" : ""}>
         {navigationItems.map((item) => (
-          <NavItem key={item.id} onClick={() => handleNavigation("/sr",item.slug)}>
+          <NavItem key={item.id} onClick={() => handleNavigation(`/${language.toLowerCase()}`, item.slug)}>
             {item.translations[language] || item.label}
           </NavItem>
         ))}

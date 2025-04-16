@@ -92,8 +92,24 @@ const GalleryShowcaseScroll = ({
     }, 500);
   };
 
-  const stepSize = window.innerHeight * SCROLL_FRACTION;
-  const totalHeight = numSlides * stepSize + window.innerHeight;
+  const [dimensions, setDimensions] = useState({ stepSize: 0, totalHeight: 0 });
+
+  useEffect(() => {
+    // This code only runs on the client side
+    const stepSize = window.innerHeight * SCROLL_FRACTION;
+    const totalHeight = numSlides * stepSize + window.innerHeight;
+    setDimensions({ stepSize, totalHeight });
+
+    // Handle window resize
+    const handleResize = () => {
+      const stepSize = window.innerHeight * SCROLL_FRACTION;
+      const totalHeight = numSlides * stepSize + window.innerHeight;
+      setDimensions({ stepSize, totalHeight });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [numSlides]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -115,7 +131,7 @@ const GalleryShowcaseScroll = ({
 
   return (
     <>
-      <Container ref={containerRef} style={{ height: `${totalHeight}px` }}>
+      <Container ref={containerRef} style={{ height: `${dimensions.totalHeight}px` }}>
         <StickyContainer>
           <SlidesWrapper style={{ transform: `translateX(${translateX}vw)` }}>
             {reorderedGalleryData.map((slide, idx) => {
