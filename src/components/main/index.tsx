@@ -109,10 +109,10 @@ const Content = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 2.8rem;
-  margin-bottom: 1rem;
-  font-weight: bold;
-  font-family: "Poppins";
+  font-size: 2.5rem;
+  font-family: "Montserrat", sans-serif;
+  border-top: 1px solid white;
+  text-transform: lowercase;
 
   @media (max-width: 768px) {
     font-size: 2.2rem;
@@ -124,8 +124,9 @@ const Title = styled.h1`
 `;
 
 const Subtitle = styled.p`
-  font-size: 1.25rem;
+  font-size: 1.rem;
   margin-bottom: 2rem;
+  font-style: italic;
 
   @media (max-width: 768px) {
     font-size: 1rem;
@@ -142,7 +143,7 @@ const BookButton = styled.button`
   letter-spacing: 2px;
   border: none;
   padding: 1rem 2rem;
-  font-size: 0.8rem;
+  font-size: 0.6rem;
   font-weight: bold;
   cursor: pointer;
   font-family: "Montserrat";

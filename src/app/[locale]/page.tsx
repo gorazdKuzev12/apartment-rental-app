@@ -28,16 +28,25 @@ async function fetchNavigationItems() {
   return data; // Return the navigation items
 }
 
+async function fetchGalleryData() {
+  const res = await fetch("http://localhost:1337/api/gallery-components?populate=*", {
+    cache: "force-cache",
+  });
+  const { data } = await res.json();
+  return data; // Return the gallery component entries
+}
+
 const Home = async ({ params }: { params: { locale: string } }) => {
-  const [mainPageData, aboutPageData, navigationItems] = await Promise.all([
+  const [mainPageData, aboutPageData, navigationItems, galleryData] = await Promise.all([
     fetchMainPageData(),
     fetchAboutPageData(),
     fetchNavigationItems(),
+    fetchGalleryData(),
   ]);
 
   return (
     <>
-      <Header navigationItems={navigationItems}  />
+      <Header navigationItems={navigationItems} />
       <Main
         video={mainPageData.video}
         title={mainPageData.title}
@@ -59,10 +68,9 @@ const Home = async ({ params }: { params: { locale: string } }) => {
           languageCode: params.locale,
         }}
       />
-      <Gallery />
-      <ContactUs />
+      <Gallery galleryData={galleryData} language={params.locale} />
       <BookNow />
-      <Footer />
+      <Footer navigationItems={navigationItems} languageCode={params.locale} />
     </>
   );
 };

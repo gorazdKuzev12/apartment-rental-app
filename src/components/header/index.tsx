@@ -12,6 +12,7 @@ interface NavigationItem {
   label: any;
   translations: any;
   id: string;
+  order:number;
   
   
 }
@@ -158,7 +159,7 @@ const Nav = styled.nav`
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 
     img {
-      height: 80px;
+      height: 50px;
       transition: height 0.3s ease;
     }
   }
@@ -167,11 +168,11 @@ const Nav = styled.nav`
 const Logo = styled.div`
   img {
     width: auto;
-    height: 100px;
+    height: 60px;
     transition: height 0.3s ease;
 
     @media (max-width: 768px) {
-      height: 80px;
+      height: 40px;
     }
   }
 `;
@@ -215,7 +216,7 @@ const NavItem = styled.a`
   color: #000;
   cursor: pointer;
   transition: color 0.3s ease;
-  font-size: 1.4rem;
+  font-size: 1rem;
 
   &:hover {
     color: #388b7a;

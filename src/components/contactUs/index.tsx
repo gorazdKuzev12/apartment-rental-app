@@ -26,7 +26,7 @@ const ContactUs = () => {
     EN: {
       title: "Enhancing Your Living Experience",
       phone: "Call Us",
-      instagram: "Contact us on Instagram",
+      instagram: "Instagram",
       airbnb: "Airbnb",
     },
     DE: {
@@ -41,7 +41,6 @@ const ContactUs = () => {
     <ContactSection id="contact">
       <Overlay>
         <Content>
-          <Title>{translations[language].title}</Title>
           <ContactInfo>
             <CallButton href="tel:+381638800732">
               <FontAwesomeIcon icon={faPhone} />
@@ -84,7 +83,7 @@ const ContactSection = styled.section`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background:url("https://res.cloudinary.com/dw9cab9ab/image/upload/v1/image1_ybvcap.jpg") center/cover no-repeat; /* Adjust path to your background image */
+  background:url("https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6706_rvkmor.jpg") center/cover no-repeat; /* Adjust path to your background image */
   position: relative;
 
   @media (max-width: 768px) {
@@ -119,7 +118,6 @@ const Content = styled.div`
   text-align: center;
   color: white;
   padding: 2rem;
-  border: 2px solid white;
   position: relative;
 
   @media (max-width: 768px) {
@@ -157,7 +155,6 @@ const CallButton = styled.a`
   font-weight: bold;
   text-decoration: none;
   transition: background-color 0.3s ease;
-  border-radius: 5px;
   font-family: "Montserrat";
 
 
@@ -186,7 +183,7 @@ const InstagramButton = styled.a`
   display: inline-flex;
   align-items: center;
   background-color: transparent;
-  border: 2px solid white;
+  border: 1px solid white;
   color: white;
   padding: 1rem 2rem;
   text-transform: uppercase;

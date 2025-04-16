@@ -1,290 +1,372 @@
 "use client";
-import { useState } from "react";
-import styled from "styled-components";
-import Link from "next/link";
-import { useLanguage } from "@/context/LanguageContext";
-import Album from "../album";
+import React, { useRef, useEffect, useState, useMemo } from "react";
+import styled, { keyframes } from "styled-components";
 
-const Gallery = () => {
-  const { language } = useLanguage(); // Get the current language from the context
-  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null); // Track selected image index
-  const [selectedAlbum, setSelectedAlbum] = useState<number | null>(null); // Track selected album index
+const SCROLL_FRACTION = 0.5;
 
-  const translations: {
-    [key: string]: {
-      overlayTexts: string[];
-      viewGallery: string;
+function getSeeMoreText(language: string) {
+  switch (language) {
+    case "sr":
+      return "Vidi više";
+    case "de":
+      return "Mehr sehen";
+    default:
+      return "See More";
+  }
+}
+
+const GalleryShowcaseScroll = ({
+  galleryData,
+  language,
+}: {
+  galleryData: any[];
+  language: string;
+}) => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedCategoryImages, setSelectedCategoryImages] = useState<any[]>([]);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const reorderedGalleryData = useMemo(() => {
+    if (!galleryData) return [];
+    return [...galleryData].sort((a, b) => {
+      if (a.title.en === "Exterior") return -1;
+      if (b.title.en === "Exterior") return 1;
+      return 0;
+    });
+  }, [galleryData]);
+
+  const numSlides = reorderedGalleryData.length;
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!containerRef.current) return;
+
+      const containerTop = containerRef.current.offsetTop;
+      const scrollInSection = window.scrollY - containerTop;
+      const stepSize = window.innerHeight * SCROLL_FRACTION;
+      const stepIndex = Math.floor(scrollInSection / stepSize);
+      const clampedIndex = Math.max(0, Math.min(stepIndex, numSlides - 1));
+
+      setCurrentSlide(clampedIndex);
     };
-  } = {
-    SR: {
-      overlayTexts: [
-        "Ambijent",  // Exterior
-        "Enterijer",   // Interior
-        "Proslave",    // Events/Celebrations
-        "Spa",   // Relaxation
-      ],
-      viewGallery: "Pogledajte celu galeriju",
-    },
-    EN: {
-      overlayTexts: [
-        "Exterior",
-        "Interior",
-        "Events",
-        "Spa",
-      ],
-      viewGallery: "View Full Gallery",
-    },
-    DE: {
-      overlayTexts: [
-        "Außenbereich",  // Exterior
-        "Innenbereich",  // Interior
-        "Feierlichkeiten", // Events/Celebrations
-        "Entspannung",    // Relaxation
-      ],
-      viewGallery: "Vollständige Galerie ansehen",
-    },
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [numSlides]);
+
+  const translateX = -currentSlide * 100;
+
+  const openModal = (images: any[]) => {
+    setSelectedCategoryImages(images);
+    setModalOpen(true);
+    setCurrentImageIndex(0);
   };
 
-  // Different albums for each section
-  const albums = {
-    exterior: [
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/ynbrmyc8q8p4xbxw1g9c.jpg", alt: "Exterior 1" },
-
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/g6xto0ihphpdnnei5wro.jpg", alt: "Exterior 2" },
-
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/rtyrosfavnuau4oshoc9.jpg", alt: "Exterior 3" },
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/ri0ovj6z2hz2hjp1pwqv.jpg", alt: "Exterior 4" },
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/x09bx0iwzqn8kcalzduf.jpg", alt: "Exterior 5" },
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/sz4zeturu6epfnjeimyj.jpg", alt: "Exterior 6" }
-    ],
-    interior: [
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6695_rosge8.jpg", alt: "Interior 1" },
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6700_adg7qh.jpg", alt: "Interior 2" },
-
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6716_zrhnzb.jpg", alt: "Interior 3" },
-
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6717_za4r1a.jpg", alt: "Interior 4" },
-
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6701_kacigj.jpg", alt: "Interior 5" },
-
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6697_lxg2yv.jpg", alt: "Interior 6" },
-
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6693_xzalps.jpg", alt: "Interior 7" },
-
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6698_jdi0re.jpg", alt: "Interior 8" },
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6694_euwmsb.jpg", alt: "Interior *" },
-    ],
-    events: [
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6712_qdkbfv.jpg", alt: "Proslave 1" },
-
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6710_j66xie.jpg", alt: "Proslave 2" },
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6706_rvkmor.jpg", alt: "Proslave 3" },
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6707_w0lxk5.jpg", alt: "Proslave 4" },
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/4d4b4e09-7dce-4116-bc00-6180b5975906_vqkfrn.jpg", alt: "Proslave 5" },
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/52bd2c36-c00f-4ad6-877a-c65b628362f1_1_xgdkjs.jpg", alt: "Proslave 6" },
-
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/c9cf3b1e-ab30-4c4b-b47d-4303c1bbd408_k6egiw.jpg", alt: "Proslave 7" },
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/07d02067-fb73-4b4e-8fdd-9c39defbada6_cmlqia.jpg", alt: "Proslave 8" }
-
-
-
-    ],
-    relaxation: [
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6704_ljtxp8.jpg", alt: "Relaxation 1" },
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6703_lxyhbi.jpg", alt: "Relaxation 2" },
-      { src: "https://res.cloudinary.com/dw9cab9ab/image/upload/v1/IMG_6705_ax4det.jpg", alt: "Relaxation 3" }
-    ],
+  const closeModal = () => {
+    setModalOpen(false);
+    setSelectedCategoryImages([]);
   };
 
-  const galleryImages = [
-    { src: albums.exterior[0].src, alt: "Exterior" },
-    { src: albums.interior[0].src, alt: "Interior" },
-    { src: albums.events[0].src, alt: "Events" },
-    { src: albums.relaxation[0].src, alt: "Relaxation" },
-  ];
-
-  const handleImageClick = (index: number) => {
-    setSelectedAlbum(index); // Set selected album based on the clicked image
-    setSelectedImageIndex(0); // Start with the first image of that album
+  const nextImage = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setTimeout(() => {
+      setCurrentImageIndex((prev) =>
+        prev === selectedCategoryImages.length - 1 ? 0 : prev + 1
+      );
+      setIsAnimating(false);
+    }, 500);
   };
 
-  const handleCloseAlbum = () => {
-    setSelectedImageIndex(null); // Close the album
-    setSelectedAlbum(null); // Reset the album
+  const prevImage = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setTimeout(() => {
+      setCurrentImageIndex((prev) =>
+        prev === 0 ? selectedCategoryImages.length - 1 : prev - 1
+      );
+      setIsAnimating(false);
+    }, 500);
   };
+
+  const stepSize = window.innerHeight * SCROLL_FRACTION;
+  const totalHeight = numSlides * stepSize + window.innerHeight;
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!modalOpen) return;
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        prevImage();
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        nextImage();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [modalOpen, nextImage, prevImage]);
 
   return (
     <>
-      <GallerySection>
-        <ImageGrid>
-          {galleryImages.map((image, index) => (
-            <ImageWrapper key={index} onClick={() => handleImageClick(index)}>
-              <Image src={image.src} alt={image.alt} />
-              <Overlay>
-                <OverlayText>{translations[language].overlayTexts[index]}</OverlayText>
-              </Overlay>
-            </ImageWrapper>
-          ))}
-        </ImageGrid>
-        <ButtonWrapper>
-          <Link href="/gallery" passHref>
-            <ViewButton>{translations[language].viewGallery}</ViewButton>
-          </Link>
-        </ButtonWrapper>
-      </GallerySection>
+      <Container ref={containerRef} style={{ height: `${totalHeight}px` }}>
+        <StickyContainer>
+          <SlidesWrapper style={{ transform: `translateX(${translateX}vw)` }}>
+            {reorderedGalleryData.map((slide, idx) => {
+              const slideTitle = slide.title[language] || slide.title.en;
 
-      {selectedImageIndex !== null && selectedAlbum !== null && (
-        <Album
-          images={
-            selectedAlbum === 0
-              ? albums.exterior
-              : selectedAlbum === 1
-              ? albums.interior
-              : selectedAlbum === 2
-              ? albums.events
-              : albums.relaxation
-          }
-          currentIndex={selectedImageIndex}
-          onClose={handleCloseAlbum}
-        />
+              return (
+                <Slide
+                  key={idx}
+                  style={{ backgroundImage: `url(${slide.poster_image.src})` }}
+                >
+                  <Overlay>
+                    <OverlayContent>
+                      <CategoryTitle>{slideTitle}</CategoryTitle>
+                      <SeeMoreButton onClick={() => openModal(slide.images)}>
+                        {getSeeMoreText(language)}
+                      </SeeMoreButton>
+                    </OverlayContent>
+                  </Overlay>
+                </Slide>
+              );
+            })}
+          </SlidesWrapper>
+        </StickyContainer>
+      </Container>
+
+      {modalOpen && (
+        <Modal onClick={closeModal}>
+          <ModalContent onClick={(e) => e.stopPropagation()}>
+            <CloseButton onClick={closeModal}>&times;</CloseButton>
+            <ImageWrapper>
+              <AnimatedImage
+                key={selectedCategoryImages[currentImageIndex].src}
+                src={selectedCategoryImages[currentImageIndex].src}
+                alt={
+                  selectedCategoryImages[currentImageIndex].alt[language] ||
+                  selectedCategoryImages[currentImageIndex].alt.en
+                }
+              />
+              <ImageAlt>
+                {selectedCategoryImages[currentImageIndex].alt[language] ||
+                  selectedCategoryImages[currentImageIndex].alt.en}
+              </ImageAlt>
+            </ImageWrapper>
+
+            <Navigation>
+              <NavButton onClick={prevImage}>❮</NavButton>
+              <NavButton onClick={nextImage}>❯</NavButton>
+            </Navigation>
+          </ModalContent>
+        </Modal>
       )}
     </>
   );
 };
 
-const GallerySection = styled.section`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0rem 1rem;
+export default GalleryShowcaseScroll;
 
-  @media (max-width: 768px) {
-    padding: 1rem;
-  }
-`;
-const ImageGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-  width: 100%;
+/* ===== Styled Components ===== */
 
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-`;
-
-const ImageWrapper = styled.div`
+const Container = styled.div`
   position: relative;
   width: 100%;
-  padding-top: 75%; /* 4:3 Aspect Ratio */
-  overflow: hidden;
-
-  @media (max-width: 768px) {
-    padding-top: 56.25%; /* 16:9 Aspect Ratio */
-  }
-
-  &:hover img {
-    transform: scale(1.1);
-  }
 `;
 
-const Image = styled.img`
-  position: absolute;
+const StickyContainer = styled.div`
+  position: sticky;
   top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; // Ensures image covers the container
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+`;
+
+const SlidesWrapper = styled.div`
+  display: flex;
+  width: 100vw;
+  height: 100vh;
   transition: transform 0.3s ease;
+`;
+
+const Slide = styled.div`
+  flex: 0 0 100vw;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  position: relative;
 `;
 
 const Overlay = styled.div`
   position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+`;
+
+const OverlayContent = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+`;
+
+const CategoryTitle = styled.h2`
+  color: white;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+`;
+
+const SeeMoreButton = styled.button`
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.4);
+  }
+`;
+
+const Modal = styled.div`
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.3);
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+
   display: flex;
-  align-items: center;
   justify-content: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  text-transform: uppercase;
-  cursor: pointer;
-    opacity: 1;
-  
+  align-items: center;
+  cursor: zoom-out;
 `;
 
-const OverlayText = styled.span`
-  color: #fff;
-  font-size: 1.5rem;
-
-  @media (max-width: 768px) {
-    font-size: 1rem;
-  }
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin-top: 4rem;
-  margin-bottom: 3rem;
-
+const ModalContent = styled.div`
   position: relative;
-
- 
-
-  &::before {
-    margin-right: 1rem;
-  }
-
-  &::after {
-    margin-left: 1rem;
-  }
-
-
-  @media (max-width: 768px) {
-    &::before,
-    &::after {
-      height: 1px;
-    }
-  }
+  max-width: 80vw;
+  max-height: 80vh;
+  background-color: #222;
+  border-radius: 10px;
+  padding: 1rem;
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
-const ViewButton = styled.button`
-  background-color: transparent;
-  color: #1a513a;
-  border: 2px solid #1a513a;
-  padding: 1rem 1.5rem;
-  font-size: 0.7rem;
-  font-weight: bold;
-  text-transform: uppercase;
+const CloseButton = styled.button`
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 3rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-family: "Montserrat";
-  background-color: #1a513a;
-  letter-spacing: 5px;
-  color: #fbfbfb;
-  &:hover {
+`;
 
-    color: #1a513a;
-  border: 2px solid #1a513a;
-  background-color: white;
+const ImageWrapper = styled.div`
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: scale(0.9);
   }
-
-  @media (max-width: 768px) {
-    padding: 0.75rem 1rem;
-    font-size: 0.875rem;
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 `;
 
-export default Gallery;
+const swipeLeft = keyframes`
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+`;
+
+const swipeRight = keyframes`
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+`;
+
+const AnimatedImage = styled.img`
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  animation: ${fadeIn} 0.5s ease;
+
+  &.swipe-left {
+    animation: ${swipeLeft} 0.5s ease;
+  }
+
+  &.swipe-right {
+    animation: ${swipeRight} 0.5s ease;
+  }
+`;
+
+const ImageAlt = styled.div`
+  margin-top: 1rem;
+  color: white;
+  font-size: 1.2rem;
+  text-align: center;
+`;
+
+const Navigation = styled.div`
+  position: absolute;
+  top: 50%;
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transform: translateY(-50%);
+`;
+
+const NavButton = styled.button`
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  font-size: 2rem;
+  width: 3rem;
+  height: 3rem;
+  cursor: pointer;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 3rem;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.4);
+  }
+`;
