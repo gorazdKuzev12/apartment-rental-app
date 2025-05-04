@@ -1,7 +1,7 @@
 // next-i18next.config.js
 module.exports = {
   i18n: {
-    defaultLocale: "en",
-    locales: ["en", "de"], // Add your locales here
+    defaultLocale: "sr",
+    locales: ["en", "de", "sr"], // Added Serbian locale
   },
 };

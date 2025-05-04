@@ -1,100 +1,72 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faMapMarkerAlt,
-  faSnowflake,
   faBed,
-  faUtensils,
+  faBath,
   faSwimmingPool,
   faHotTub,
-  faBath,
   faWifi,
   faParking,
-  faPaw,
+  faSnowflake,
   faTv,
-} from "@fortawesome/free-solid-svg-icons"; // Import the necessary icons
-import { useLanguage } from "@/context/LanguageContext"; // Import the useLanguage hook
+  faPaw,
+  faUtensils,
+  faPhone,
+  faCalendarAlt,
+} from "@fortawesome/free-solid-svg-icons";
+import { faAirbnb } from "@fortawesome/free-brands-svg-icons";
 
-const translations: {
-  [key: string]: {
-    tagline: string;
-    title: string;
-    description: string;
-    button: string;
-    amenities: string[];
-  };
-} = {
-  SR: {
-    title: "Smaragdis: Oaza u srcu Fruške gore",
-    description: `
-      Vila Smaragdis se nalazi u srcu Fruške gore, na samo 23 km od Novog Sada. Ova potpuno nova i kompletno opremljena vila može da primi 8 osoba. Pružamo organizaciju različitih proslava, seminara i team building događaja. Vila ima bazen dimenzija 10x5 metara sa toplotnom pumpom i slanom vodom, plažu sa ležaljkama i suncobranima, finsku saunu i igralište za decu. U vili se nalaze tri spavaće sobe, dva kupatila. Sve sobe nude pogled na predivnu planinu Frušku goru. Takođe, vila poseduje privatni parking namenjen za 5 automobila.
-    `,
-    button: "Pronađi lokaciju",
-    amenities: [
-      "3 Spavaće sobe",
-      "2 Kupatila",
-      "Bazen",
-      "Sauna",
-      "WiFi",
-      "Parking",
-      "2 Klime",
-      "4 TV-a",
-      "Pet Friendly",
-      "BBQ",
-    ],
-    tagline: "",
-  },
-  EN: {
-    tagline: "Luxury Apartments",
-    title: "Smaragdis: Oasis in the Heart of Fruška Gora",
-    description: `
-      Villa Smaragdis is located in the heart of Fruška Gora, just 23 km from Novi Sad. This brand new and fully equipped villa can accommodate 8 people. We offer organization of various celebrations, seminars, and team-building events. The villa has a 10x5 meter pool with a heat pump and sea salt, a beach with loungers and umbrellas, a Finnish sauna, and a children's playground. The villa has three bedrooms, two bathrooms. All rooms offer a view of the beautiful Fruška Gora mountain. Additionally, the villa has private parking for 5 cars.
-    `,
-    button: "Get Location",
-    amenities: [
-      "3 Bedrooms",
-      "2 Bathrooms",
-      "Pool",
-      "Sauna",
-      "WiFi",
-      "Parking",
-      "2 Air Conditioners",
-      "4 TVs",
-      "Pet Friendly",
-      "BBQ",
-    ],
-  },
-  DE: {
-    tagline: "Luxuswohnungen",
-    title: "Smaragdis: Oase im Herzen von Fruška Gora",
-    description: `
-      Die Villa Smaragdis befindet sich im Herzen von Fruška Gora, nur 23 km von Novi Sad entfernt. Diese brandneue und voll ausgestattete Villa bietet Platz für 8 Personen. Wir bieten die Organisation verschiedener Feierlichkeiten, Seminare und Team-Building-Veranstaltungen an. Die Villa verfügt über einen 10x5 Meter großen Pool mit Wärmepumpe und Meersalz, einen Strand mit Liegestühlen und Sonnenschirmen, eine finnische Sauna und einen Kinderspielplatz. Die Villa hat drei Schlafzimmer und zwei Badezimmer. Alle Zimmer bieten Blick auf den schönen Berg Fruška Gora. Darüber hinaus verfügt die Villa über einen privaten Parkplatz für 5 Autos.
-    `,
-    button: "Standort finden",
-    amenities: [
-      "3 Schlafzimmer",
-      "2 Badezimmer",
-      "Pool",
-      "Sauna",
-      "WiFi",
-      "Parkplatz",
-      "2 Klimaanlagen",
-      "4 Fernseher",
-      "Haustierfreundlich",
-      "BBQ",
-    ],
-  },
-};
+const amenityIcons = [
+  faBed,
+  faBath,
+  faSwimmingPool,
+  faHotTub,
+  faWifi,
+  faParking,
+  faSnowflake,
+  faTv,
+  faPaw,
+  faUtensils,
+];
 
-const AboutUs = () => {
-  const { language } = useLanguage(); // Get the current language from the context
+interface AboutUsData {
+  tagline: Record<string, string>;
+  title: Record<string, string>;
+  description: Record<string, string>;
+  button_text: Record<string, string>;
+  address: string;
+  logo: string;
+  amenities: Record<string, string[]>;
+  languageCode: string;
+}
+
+const AboutUs = ({ aboutData }: { aboutData: AboutUsData }) => {
+  const [localizedData, setLocalizedData] = useState({
+    tagline: aboutData.tagline["EN"], // Default to English
+    title: aboutData.title["EN"],
+    description: aboutData.description["EN"],
+    button_text: aboutData.button_text["EN"],
+    amenities: aboutData.amenities["EN"],
+  });
+
+  const language = aboutData.languageCode.toUpperCase();
+
+  useEffect(() => {
+    setLocalizedData({
+      tagline: aboutData.tagline[language] || aboutData.tagline["EN"],
+      title: aboutData.title[language] || aboutData.title["EN"],
+      description: aboutData.description[language] || aboutData.description["EN"],
+      button_text: aboutData.button_text[language] || aboutData.button_text["EN"],
+      amenities: aboutData.amenities[language] || aboutData.amenities["EN"],
+    });
+  }, [language, aboutData]);
 
   const handleGetDirections = () => {
-    const address = "Kaludjerica 52, Čerević 21311, Serbia"; // Change to your desired address
     const mapsUrl = `https://www.google.com/maps?q=${encodeURIComponent(
-      address
+      aboutData.address
     )}`;
     window.open(mapsUrl, "_blank");
   };
@@ -102,47 +74,83 @@ const AboutUs = () => {
   return (
     <AboutSection id="about-us">
       <Container>
+        {/* Left Column: Logo + Tagline + Title */}
         <LeftColumn>
-          <Logo src="/logo.png" alt="Villa Smaragdis Logo" />
-          <Tagline>{translations[language].tagline}</Tagline>
-          <Title>{translations[language].title}</Title>
+          <Logo
+            src={aboutData.logo || "/logo.png"}
+            alt="Villa Smaragdis Logo"
+          />
+          <Tagline>{localizedData.tagline}</Tagline>
+          <Title>{localizedData.title}</Title>
           <Separator />
         </LeftColumn>
+
+        {/* Right Column: Description + Buttons */}
         <RightColumn>
-          <Description>{translations[language].description}</Description>
-          <ViewButton onClick={handleGetDirections}>
-            &nbsp;{translations[language].button}
-          </ViewButton>
+          <Description>{localizedData.description}</Description>
+
+          <ExtraLinksContainer>
+            {/* Call Us and Social Links */}
+            <SocialAndCall>
+              <CallButton href="tel:+381638800732">
+                <FontAwesomeIcon icon={faPhone} />
+                &nbsp;Call: +381 63 8800732
+              </CallButton>
+
+              <SocialButtons>
+                <SocialLink
+                  href="https://www.instagram.com/villa_smaragdis?igsh=MTZsMjZjbWx5bGw4aQ%3D%3D"
+                  target="_blank"
+                >
+                  Instagram
+                </SocialLink>
+
+                <SocialLink
+                  href="https://www.airbnb.com/rooms/52522746?source_impression_id=p3_1727802292_P3kPDTOsgtHYcU5G&locale=en&_set_bev_on_new_domain=1727802292_EAYmU5MzdhZWU4Y2"
+                  target="_blank"
+                >
+                  <FontAwesomeIcon icon={faAirbnb} />
+                  &nbsp;Airbnb
+                </SocialLink>
+
+                <SocialLink
+                  href="https://www.booking.com/hotel/rs/villa-smaragdis.en-gb.html"
+                  target="_blank"
+                >
+                  <FontAwesomeIcon icon={faCalendarAlt} />
+                  &nbsp;Booking
+                </SocialLink>
+              </SocialButtons>
+            </SocialAndCall>
+
+            {/* Get Location Button */}
+            <ViewButton onClick={handleGetDirections}>
+              GET LOCATION
+            </ViewButton>
+          </ExtraLinksContainer>
         </RightColumn>
       </Container>
+
+      {/* Amenities Section */}
       <AmenitiesSection>
-      <AmenitiesContainer>
-        {translations[language].amenities.map((amenity, index) => (
-          <AmenityCard key={index}>
-            <IconWrapper>
-              <FontAwesomeIcon icon={amenityIcons[index]} />
-            </IconWrapper>
-            <AmenityText>{amenity}</AmenityText>
-          </AmenityCard>
-        ))}
-      </AmenitiesContainer>
-    </AmenitiesSection>
+        <AmenitiesContainer>
+          {localizedData.amenities.map((amenity, index) => (
+            <AmenityCard key={index}>
+              <IconWrapper>
+                <FontAwesomeIcon icon={amenityIcons[index] || faUtensils} />
+              </IconWrapper>
+              <AmenityText>{amenity}</AmenityText>
+            </AmenityCard>
+          ))}
+        </AmenitiesContainer>
+      </AmenitiesSection>
     </AboutSection>
   );
 };
 
-const amenityIcons = [
-  faBed, // 3 Spavaće sobe / 3 Bedrooms / 3 Schlafzimmer
-  faBath, // 2 Kupatila / 2 Bathrooms / 2 Badezimmer
-  faSwimmingPool, // Bazen / Pool / Pool
-  faHotTub, // Sauna / Sauna / Sauna
-  faWifi, // WiFi / WiFi / WiFi
-  faParking, // Parking / Parking / Parkplatz
-  faSnowflake, // 2 Klime / 2 Air Conditioners / 2 Klimaanlagen
-  faTv, // 4 TV-a / 4 TVs / 4 Fernseher
-  faPaw, // Pet Friendly / Pet Friendly / Haustierfreundlich
-  faUtensils, // Mikrotalasna / Microwave / Mikrowelle
-];
+export default AboutUs;
+
+/* ===== Styled Components ===== */
 
 const AboutSection = styled.section`
   display: flex;
@@ -150,7 +158,6 @@ const AboutSection = styled.section`
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: 8rem 2rem;
 
   @media (max-width: 768px) {
     padding: 1rem;
@@ -218,7 +225,7 @@ const Tagline = styled.h2`
 `;
 
 const Title = styled.h1`
-  font-size: 2.7rem;
+  font-size: 2.6rem;
   font-weight: bold;
   margin-bottom: 1rem;
   color: #1a513a;
@@ -236,44 +243,95 @@ const Separator = styled.hr`
 `;
 
 const Description = styled.p`
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   line-height: 1.6;
+  margin-top: 3rem;
   margin-bottom: 2rem;
   color: #717171;
-  
+  font-style: italic;
+
   @media (max-width: 768px) {
     font-size: 1.2rem;
   }
 `;
 
-const ViewButton = styled.button`
-  background-color: transparent;
-  color: white;
-  background-color: #1a513a;
+const ExtraLinksContainer = styled.div`
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
 
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 1rem;
+  }
+`;
+
+const SocialAndCall = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    align-items: center;
+  }
+`;
+
+const SocialButtons = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
+const CallButton = styled.a`
+  color: #1a513a;
+  font-size: 0.9rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+  gap: 0.4rem;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #3c3c3c;
+  }
+`;
+
+const ViewButton = styled.button`
+  background-color: #1a513a;
+  color: white;
   padding: 0.75rem 1.5rem;
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   letter-spacing: 5px;
   font-weight: bold;
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.3s ease;
-  display: flex;
   font-family: "Montserrat";
 
   &:hover {
     background-color: white;
-    color:#1a513a;
+    color: #1a513a;
     border: 2px solid #1a513a;
-
   }
 
   @media (max-width: 768px) {
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-    display: block; /* Ensure it is block element */
-    margin: 0 auto; /* Center the button horizontally on mobile */
+    width: 100%;
+  }
+`;
 
+const SocialLink = styled.a`
+  color: #1a513a;
+  font-size: 0.85rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #3c3c3c;
   }
 `;
 
@@ -281,7 +339,6 @@ const AmenitiesSection = styled.section`
   width: 100%;
   padding: 2rem 1rem;
   margin-top: 2rem;
-
 `;
 
 const AmenitiesContainer = styled.div`
@@ -289,8 +346,6 @@ const AmenitiesContainer = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   gap: 2rem;
-  max-width: 100%;
-  margin: 0 auto;
   margin-top: 2.5rem;
 
   @media (max-width: 768px) {
@@ -303,7 +358,7 @@ const AmenityCard = styled.div`
   flex-direction: column;
   align-items: center;
   background: white;
-  width: calc(22% - 4rem); /* Four per row on larger screens */
+  width: calc(22% - 4rem);
   transition: transform 0.3s ease;
 
   &:hover {
@@ -311,27 +366,22 @@ const AmenityCard = styled.div`
   }
 
   @media (max-width: 1024px) {
-    width: calc(33.33% - 1.5rem); /* Three per row on medium screens */
+    width: calc(33.33% - 1.5rem);
   }
 
   @media (max-width: 768px) {
-    width: calc(50% - 1rem); /* Two per row on mobile */
+    width: calc(50% - 1rem);
   }
-
- 
 `;
 
 const IconWrapper = styled.div`
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   color: #1a513a;
   margin-bottom: 1rem;
 `;
 
 const AmenityText = styled.p`
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #1a513a;
   text-align: center;
-  
 `;
-
-export default AboutUs;
